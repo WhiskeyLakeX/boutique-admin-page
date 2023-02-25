@@ -1,0 +1,42 @@
+@use 'src/styles/components/color';
+
+.i-wrapper {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  position: relative;
+
+  .i-title {
+    margin-right: 12px;
+    min-width: 75px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 5px;
+  }
+
+  .text-field {
+    width: 100%;
+    min-height: 40px;
+    border-radius: 8px;
+    border: 2px solid color.$gray-300;
+    padding-left: 10px;
+
+    &:focus-visible {
+      border: 2px solid color.$gray-400;
+      outline: color.$gray-400;
+    }
+  }
+
+  .show-pass-btn {
+    position: absolute;
+    cursor: pointer;
+    right: 0;
+    margin-right: 14px;
+  }
+}
+
+

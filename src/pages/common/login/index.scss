@@ -1,0 +1,107 @@
+@use "src/styles/components/color";
+
+.common-login-page {
+  align-items: center;
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,121,121,1) 35%, rgba(0,212,255,1) 100%);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  .container {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 100px;
+
+    .login-section-btn {
+      align-self: flex-start;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+      .login-btn {
+
+        border-top-left-radius: 8px;
+        border-top: color.$white solid 1px;
+        border-left: color.$white solid 1px;
+      }
+
+      .regis-btn {
+        border-bottom-left-radius: 8px;
+        border-bottom: color.$white solid 1px;
+        border-left: color.$white solid 1px;
+      }
+
+      .selected-btn {
+        background: color.$white;
+
+        color: color.$black !important;
+      }
+
+      .sw-btn {
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        height: 40px;
+        min-width: 100px;
+        color: white;
+
+        &:not(.selected-btn):hover {
+          background: rgba(255, 255, 255, 0.2);
+          transition: background-color 0.3s;
+          transition-timing-function: ease-in-out;
+        }
+      }
+      //.sw-btn
+    }
+
+    .form-container {
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+      border-bottom-left-radius: 8px;
+      background: color.$white;
+      display: flex;
+      height: 350px;
+      min-width: 450px;
+      justify-content: center;
+
+      .form {
+        padding: 10px 30px 10px 30px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      .form-title {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+      }
+      }
+
+      .login-form {
+          //height: 200px;
+      }
+      .registration-form {
+
+      }
+    }
+
+    .float-btn {
+      border-radius: 50%;
+      height: 50px;
+      width: 50px;
+      background-color: white;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      position: absolute;
+
+      bottom: 50px;
+      right: 50px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+    }
+  }
+}

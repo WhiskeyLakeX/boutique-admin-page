@@ -1,0 +1,44 @@
+.t-color {
+  color: #1d1d1f;
+}
+
+.t-h1 {
+  font-size: 5rem;
+  @extend .t-color;
+}
+
+.t-h2 {
+  font-size: 4rem;
+  @extend .t-color;
+}
+
+.t-h3 {
+  font-size: 3rem;
+  @extend .t-color;
+}
+
+.t-h4 {
+  font-size: 2rem;
+  @extend .t-color;
+}
+
+.t-h5 {
+  font-size: 1rem;
+  @extend .t-color;
+}
+
+.t-lighter {
+  font-weight: lighter;
+}
+
+.t-normal {
+  font-weight: normal;
+}
+
+.t-bold {
+  font-weight: bold;
+}
+
+.t-bolder {
+  font-weight: bolder;
+}
