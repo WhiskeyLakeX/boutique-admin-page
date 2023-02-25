@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./index.scss";
-import InputField from "../../../module/component/input-field/InputField";
-import LoginBtn from "../../../module/component/button/login-btn/LoginBtn";
+import InputField from "../../../module/component/input-field/custom-input-field/InputField";
+import LoginBtn from "../../../module/component/button/custom-login-btn/LoginBtn";
 
 function Login() {
   const [btnStatus, setBtnStatus] = useState("login");
@@ -17,19 +17,26 @@ function Login() {
               titleDirection={"vertical"}
             />
             <InputField
-              placeholder={"Username"}
+              placeholder={"Password"}
               type="password"
               title={"Password"}
               titleDirection={"vertical"}
             />
-            <LoginBtn
-              label="Đăng nhập"
-              labelClass="t-h5 t-normal"
-              labelTextColor="black"
-              borderRadius="5px"
-              margin="20px 0px 0px 0px"
-              padding="5px 20px 5px 20px"
-            />
+            <div
+              role={"button"}
+              onClick={() => {
+                alert("Login");
+              }}
+            >
+              <LoginBtn
+                label="Đăng nhập"
+                labelClass="t-h5 t-normal"
+                labelTextColor="black"
+                borderRadius="5px"
+                margin="20px 0px 0px 0px"
+                padding="5px 20px 5px 20px"
+              />
+            </div>
           </div>
         );
       case "register":
