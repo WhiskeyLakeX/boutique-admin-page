@@ -1,0 +1,10 @@
+$color-dark: #1d1d1f;
+$color-white: #f6fafc;
+
+@mixin text-style($colorStyle) {
+  @if $colorStyle == light {
+    color: $color-white;
+  } @else if $colorStyle == dark {
+    color: $color-dark
+  }
+}

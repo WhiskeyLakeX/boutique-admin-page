@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react";
-import DashboardLayout from "../module/component/layout/DashboardLayout";
 import Route404 from "../pages/page_404/Route404";
 import Login from "../pages/common/login/Login";
 import UserManagement from "../pages/user-management/index";
+import LayoutProvider from "../module/utils/LayoutProvider";
 
 export interface IRoute {
   path: string;
@@ -12,10 +12,6 @@ export interface IRoute {
   children?: IRoute[];
   element?: ReactNode;
 }
-
-const LayoutProvider = (props: ReactNode): React.ReactNode => {
-  return <DashboardLayout>{props}</DashboardLayout>;
-};
 
 const routes: IRoute[] = [
   {
@@ -35,46 +31,37 @@ const routes: IRoute[] = [
   {
     path: "/dashboard",
     name: "Bảng điều khiển",
-    isSideBar: false,
-    isAvailable: true,
-    element: <Login />,
-  },
-  {
-    path: "/user-management",
-    name: "Quản lý người dùng",
-    isSideBar: false,
+    isSideBar: true,
     isAvailable: true,
     element: <UserManagement />,
   },
   {
+    path: "/user-management",
+    name: "Quản lý người dùng",
+    isSideBar: true,
+    isAvailable: true,
+    element: <Login />,
+  },
+  {
     path: "/warehouse-management",
     name: "Quản lý kho",
-    isSideBar: false,
+    isSideBar: true,
     isAvailable: true,
-    element: <DashboardLayout />,
+    element: <Login />,
   },
   {
     path: "/product-management",
     name: "Quản lý sản phẩm",
-    isSideBar: false,
+    isSideBar: true,
     isAvailable: true,
-    element: <Route404 />,
-  },
-  {
-    path: "/dashboard",
-    name: "Bảng điều khiển",
-    isSideBar: false,
-    isAvailable: true,
-    element: <Route404 />,
+    element: <Login />,
   },
 ];
 
 routes.forEach((item, index, array) => {
-  if (item?.isSideBar === true) {
-    routes[index] = {
-      ...routes[index], // @ts-ignore
-      element: <LayoutProvider props={item.element} />,
-    };
+  console.log(item.isSideBar);
+  if (item.isSideBar === true) {
+    item["element"] = <LayoutProvider child={item.element} key={index} />;
   }
 });
 

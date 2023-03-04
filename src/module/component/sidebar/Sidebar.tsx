@@ -27,8 +27,6 @@ const Sidebar = (): React.ReactElement => {
         inlineCollapsed={isOpen}
         items={SidebarItem}
         style={{
-          // borderTopRightRadius: "8px",
-          // borderBottomRightRadius: "8px",
           borderRadius: "8px",
         }}
       />

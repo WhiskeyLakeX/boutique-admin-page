@@ -55,7 +55,7 @@ function Login() {
               titleDirection={"vertical"}
             />
             <LoginBtn
-              label="Đăng nhập"
+              label="Đăng ký"
               labelClass="t-h5 t-normal"
               labelTextColor="black"
               borderRadius="5px"

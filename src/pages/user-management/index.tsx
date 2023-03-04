@@ -1,7 +1,7 @@
 import React from "react";
 
-const MyComponent = () => {
-  return <div></div>;
+const UserManagement = () => {
+  return <div>AA</div>;
 };
 
-export default MyComponent;
+export default UserManagement;

@@ -1,5 +1,39 @@
-.dashboard-layout-container {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
+@use "src/styles/mixin/main";
+@use "src/styles/components/color";
+
+.antd-layout {
+  .user-information {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .username {
+      padding-top: 15px;
+      @include main.text-style(light)
+    }
+  }
+
+  .site-layout {
+    .antd-header {
+      padding: 0px 0px 0px 20px;
+      background: color.$gray-50;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+      .toggle-btn {
+        cursor: pointer;
+        border-radius: 12px;
+        width: fit-content;
+      }
+    }
+    .antd-content {
+      margin: 24px 16px;
+      padding: 24px;
+      min-height: 280px;
+      background: color.$gray-50;
+      border-radius: 8px;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+  }
 }
+
