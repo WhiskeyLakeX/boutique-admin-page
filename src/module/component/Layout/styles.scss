@@ -16,19 +16,41 @@
 
   .site-layout {
     .antd-header {
-      padding: 0px 0px 0px 20px;
+      padding: 0px 20px 0px 20px;
       background: color.$gray-50;
       box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
 
       .toggle-btn {
         cursor: pointer;
         border-radius: 12px;
         width: fit-content;
       }
+
+      .log-out-btn {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-weight: bold;
+        .log-out-text {
+          margin-right: 6px;
+          height: fit-content;
+        }
+
+        &:hover .log-out-icon {
+          color: color.$rose-600;
+        }
+        &:hover {
+          cursor: pointer;
+        }
+
+      }
     }
     .antd-content {
-      margin: 24px 16px;
-      padding: 24px;
+      margin: 16px 16px;
+      padding: 15px;
       min-height: 280px;
       background: color.$gray-50;
       border-radius: 8px;

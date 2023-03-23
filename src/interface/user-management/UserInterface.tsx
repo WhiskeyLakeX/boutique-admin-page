@@ -1,8 +1,11 @@
 export default interface IUserItem {
   id?: string;
-  username?: string;
   name?: string;
+
+  username?: string;
   age?: number;
+  dateOfBirth?: string;
+  email?: string;
   address?: string;
-  orderNumber?: number;
+  numOrder?: number;
 }

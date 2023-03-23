@@ -24,5 +24,7 @@ export default function Sidebar(state = initialState, action: IAction) {
         ...state,
         isOpen: !state.isOpen,
       };
+    default:
+      return state;
   }
 }

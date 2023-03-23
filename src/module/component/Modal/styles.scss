@@ -1,0 +1,14 @@
+@use "src/styles/components/color";
+
+.title-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 10px;
+  max-height: 20px;
+
+  .icon {
+    color: color.$rose-500;
+  }
+}

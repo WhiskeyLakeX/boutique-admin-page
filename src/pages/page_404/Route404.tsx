@@ -3,7 +3,7 @@ import img_404 from "../../assets/404_page.png";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
 export default function Route404(): JSX.Element {
-  const [count, setCount] = useState(8);
+  const [count, setCount] = useState(80);
   const navigate = useNavigate();
 
   useEffect(() => {

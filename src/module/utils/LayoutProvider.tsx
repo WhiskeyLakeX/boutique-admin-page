@@ -1,5 +1,5 @@
 import React from "react";
-import MainPageLayout from "../component/layout/MainPageLayout";
+import MainPageLayout from "../component/Layout/MainPageLayout";
 
 type LayoutProps = {
   child: React.ReactNode;

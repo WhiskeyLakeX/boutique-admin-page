@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./index.scss";
-import InputField from "../../../module/component/input-field/custom-input-field/InputField";
-import LoginBtn from "../../../module/component/button/custom-login-btn/LoginBtn";
+import InputField from "../../../module/component/InputField/CustomInputField/InputField";
+import LoginBtn from "../../../module/component/Button/CustomLoginBtn/LoginBtn";
 
 function Login() {
   const [btnStatus, setBtnStatus] = useState("login");

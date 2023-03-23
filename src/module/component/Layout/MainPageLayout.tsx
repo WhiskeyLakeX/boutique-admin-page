@@ -1,8 +1,14 @@
 import React, { useState } from "react";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import {
+  LogoutOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+} from "@ant-design/icons";
 import "./styles.scss";
 import { Layout, Menu, Avatar } from "antd";
 import SidebarItem from "./Sidebar/SidebarItem";
+import { useNavigate } from "react-router-dom";
+import RouteList, { IRoute } from "../../../routes/RouteList";
 interface IDashboardLayoutProps {
   children?: React.ReactNode;
 }
@@ -11,6 +17,21 @@ const { Header, Sider, Content } = Layout;
 
 const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
+  const findNavigatePath = (arr: IRoute[], key: string): string => {
+    let finalPath = "";
+    arr.forEach((item) => {
+      if (item.path && item.path === key) {
+        finalPath.concat(item.path);
+        console.log("final path", finalPath);
+      }
+      if (item.children && item.children.length > 0) {
+        findNavigatePath(item.children, item.path);
+      }
+    });
+    return finalPath;
+  };
+
   return (
     <Layout className={"antd-layout"}>
       <Sider
@@ -43,11 +64,14 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["1"]}
-          items={SidebarItem}
+          items={SidebarItem()}
+          onSelect={({ item, key, keyPath }) => {
+            console.log("Key ", key, "   ", findNavigatePath(RouteList, key));
+          }}
         />
       </Sider>
       <Layout className="site-layout">
-        <Header className="antd-header" style={{}}>
+        <Header className="antd-header">
           <div
             onClick={() => setCollapsed(!collapsed)}
             role="button"
@@ -58,6 +82,15 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
             ) : (
               <MenuFoldOutlined size={15} />
             )}
+          </div>
+          <div className="log-out-btn">
+            <div className="log-out-text">Đăng xuất</div>
+            <LogoutOutlined
+              className="log-out-icon"
+              style={{
+                fontSize: "18px",
+              }}
+            />
           </div>
         </Header>
         <Content className="antd-content">{props.children}</Content>
