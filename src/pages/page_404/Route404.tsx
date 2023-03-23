@@ -20,7 +20,7 @@ export default function Route404(): JSX.Element {
 
   return (
     <div className="page-wrapper">
-      <img src={img_404} alt="404_img" />
+      <img />
       <div className="text-container">
         <div className="notify t-lighter t-h4">This URL does not exist!</div>
         <div className="notify t-lighter t-h4">
