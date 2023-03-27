@@ -1,0 +1,57 @@
+@use "src/styles/components/color";
+
+.management-antd-table-container {
+  .utils-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    .action-btn {
+      display: flex;
+      gap: 10px;
+      .icon {
+        margin-right: 5px;
+      }
+    }
+  }
+  .management-table {
+    width: 100%;
+    max-height: 100px;
+    .list-btn {
+      display: flex;
+      flex-direction: row;
+      column-gap: 5px;
+
+      .btn {
+        height: 30px;
+        width: 30px;
+        min-width: 30px;
+        border-radius: 8px;
+
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background: color.$gray-200;
+      }
+
+      .edit {
+        &:hover {
+          background: color.$amber-300;
+        }
+      }
+
+      .detail {
+        &:hover {
+          background: color.$blue-200;
+        }
+      }
+    }
+
+  }
+}
+
+//.ant-table {
+//  max-height: 100px;
+//}

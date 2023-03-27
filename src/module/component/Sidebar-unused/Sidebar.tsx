@@ -11,7 +11,7 @@ const Sidebar = (): React.ReactElement => {
   };
 
   return (
-    <div style={{ maxWidth: 256, paddingLeft: 5 }}>
+    <div style={{ maxWidth: 250, paddingLeft: 5 }}>
       <Button
         type="primary"
         onClick={toggleCollapsed}

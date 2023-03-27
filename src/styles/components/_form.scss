@@ -1,0 +1,18 @@
+.manipulation-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+
+  .form-item {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1px;
+  }
+  .form-action-btn {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+    justify-content: flex-end;
+  }
+}

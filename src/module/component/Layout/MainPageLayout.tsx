@@ -38,7 +38,7 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
         trigger={null}
         collapsible
         collapsed={collapsed}
-        width={250}
+        width={240}
         breakpoint={"lg"}
       >
         <div

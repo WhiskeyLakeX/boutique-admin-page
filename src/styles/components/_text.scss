@@ -33,3 +33,8 @@
 .t-bolder {
   font-weight: bolder;
 }
+
+.required:before {
+  content:"* ";
+  color: red;
+}

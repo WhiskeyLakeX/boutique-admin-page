@@ -1,24 +1,21 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { NETWORK_CONFIG } from "../config";
 import { notification } from "antd";
+import httpStatus from "http-status";
 
 const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
   baseURL: NETWORK_CONFIG.API_BASE_URL,
+  timeout: NETWORK_CONFIG.TIMEOUT,
 });
 const notifyConfig = notification.config({
-  placement: "topLeft",
+  placement: "topRight",
   duration: 3,
   maxCount: 3,
-  signal: calAbortSignal(),
 });
-function calAbortSignal() {
-  const abortController = new AbortController();
-  setTimeout(() => abortController.abort(), NETWORK_CONFIG.TIMEOUT);
-  return abortController.signal;
-}
+const controller = new AbortController();
 function handleErrorGeneral(): void {
   notification.error({
     ...notifyConfig,
@@ -30,19 +27,37 @@ function handleSuccess(type: string | undefined) {
   notification.success({
     ...notifyConfig,
     message: `${
-      type === "create" ? "Đăng ký" : type === "edit" ? "Cập nhật" : "Xoá"
+      type === "create"
+        ? "Đăng ký"
+        : type === "edit"
+        ? "Cập nhật"
+        : type === "delete"
+        ? "Xoá"
+        : "Tải danh sách"
     } bản ghi thành công!`,
   });
 }
 
-function handleErrorDataRequest(type: string | undefined, errorCode?: number) {
+function handleErrorDataRequest(
+  type: string | undefined,
+  status_code?: number
+) {
   notification.warning({
     ...notifyConfig,
     message: `${
-      type === "create" ? "Đăng ký" : type === "edit" ? "Cập nhật" : "Xoá"
+      type === "create"
+        ? "Đăng ký"
+        : type === "edit"
+        ? "Cập nhật"
+        : type === "delete"
+        ? "Xoá"
+        : "Tải danh sách"
     } bản ghi thất bại!`,
-    description: errorCode ? `Error code: ${errorCode}` : undefined,
+    description: status_code
+      ? `Error code: ${status_code} + \n + Message: ${httpStatus[status_code]}`
+      : undefined,
   });
+  controller.abort();
 }
 
 async function fetcher(config: AxiosRequestConfig, reqType?: string) {
@@ -52,6 +67,9 @@ async function fetcher(config: AxiosRequestConfig, reqType?: string) {
         .request(config)
         .then((res) => {
           handleSuccess(reqType);
+          if (res?.data?.status_code !== 200) {
+            handleErrorDataRequest(reqType, res?.data?.status_code);
+          }
           resolve(res);
         })
         .catch((err) => {

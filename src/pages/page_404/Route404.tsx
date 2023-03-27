@@ -16,7 +16,7 @@ export default function Route404(): JSX.Element {
         setCount(count - 1);
       }
     }, 1000);
-  }, [count]);
+  }, [count, navigate]);
 
   return (
     <div className="page-wrapper">

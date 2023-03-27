@@ -8,7 +8,8 @@ const QUERY_USER_MANAGEMENT = {
 };
 
 const QUERY_PRODUCT_MANAGEMENT = {
-  GET_LIST_PRODUCT_MANAGEMENT: "get_list_product",
+  GET_LIST_PRODUCT: "get_list_product",
+  DELETE_PRODUCT: "delete_product",
 };
 
 const QUERY_ITEM_MANAGEMENT = {
