@@ -2,9 +2,31 @@ import React, { useState } from "react";
 import "./index.scss";
 import InputField from "../../../module/component/InputField/CustomInputField/InputField";
 import LoginBtn from "../../../module/component/Button/CustomLoginBtn/LoginBtn";
+import { useMutation } from "react-query";
+import { login } from "../../../api/collection/Login_API";
+import { QUERY_KEY_USER } from "../../../api/KeyQuery";
+import { GlobalInput } from "../../../module/component/InputField/GlobalAnt-InputField/GlobalInput";
+import GlobalSelect from "../../../module/component/Select/GlobalSelect";
+import GlobalDatepicker from "../../../module/component/Datepicker/GlobalDatepicker";
 
 function Login() {
   const [btnStatus, setBtnStatus] = useState("login");
+  const [loginFormData, setLoginFormData] = useState({
+    username: "",
+    password: "",
+  });
+  const [registerFormData, setRegisterFormData] = useState({
+    username: "",
+    password: "",
+    fullname: "",
+    phone_number: "",
+    email: "",
+    gender: "",
+    dob: "",
+    address: "",
+    role_id: 0,
+  });
+  const loginMutation = useMutation(QUERY_KEY_USER.LOGIN, login);
   const formRender = () => {
     switch (btnStatus) {
       case "login":
@@ -15,17 +37,36 @@ function Login() {
               placeholder={"Username"}
               title={"Username"}
               titleDirection={"vertical"}
+              onInputChange={(value: string) => {
+                setLoginFormData({
+                  ...loginFormData,
+                  password: value,
+                });
+                console.log(loginFormData);
+              }}
             />
             <InputField
               placeholder={"Password"}
               type="password"
               title={"Password"}
               titleDirection={"vertical"}
+              onInputChange={(value: string) => {
+                setLoginFormData({
+                  ...loginFormData,
+                  username: value,
+                });
+              }}
             />
             <div
               role={"button"}
               onClick={() => {
-                alert("Login");
+                loginMutation.mutate(loginFormData, {
+                  onSuccess: (res: any) => {
+                    const dataUser = {
+                      accessToken: res.response.accessToken,
+                    };
+                  },
+                });
               }}
             >
               <LoginBtn
@@ -41,19 +82,70 @@ function Login() {
         );
       case "register":
         return (
-          <div className="login-form form">
+          <div className="registration-form form">
             <div className="t-h3 t-bold form-title">Register</div>
-            <InputField
-              placeholder={"Username"}
-              title={"Username"}
-              titleDirection={"vertical"}
-            />
-            <InputField
-              placeholder={"Username"}
-              type="password"
-              title={"Password"}
-              titleDirection={"vertical"}
-            />
+            {/*username*/}
+            <label htmlFor="username" className={"registration-form-label"}>
+              Tên tài khoản
+            </label>
+            <GlobalInput id="username" />
+            {/*password*/}
+            <label htmlFor="password" className={"registration-form-label"}>
+              Mật khẩu
+            </label>
+            <GlobalInput id="password" />
+            {/*fullname*/}
+            <label htmlFor="fullname" className={"registration-form-label"}>
+              Họ và tên
+            </label>
+            <GlobalInput id="fullname" />
+            {/*dob*/}
+            <div className={"d-flex-vertical"}>
+              <label htmlFor="dob" className={"registration-form-label"}>
+                Ngày sinh
+              </label>
+              <GlobalDatepicker
+                id="dob"
+                style={{
+                  width: "130px",
+                }}
+              />
+            </div>
+
+            {/*phone*/}
+            <label htmlFor="phone" className={"registration-form-label"}>
+              Số điện thoại
+            </label>
+            <GlobalInput id="phone" />
+            {/*address*/}
+            <label htmlFor="address" className={"registration-form-label"}>
+              Địa chỉ
+            </label>
+            <GlobalInput id="address" />
+            {/*email*/}
+            <label htmlFor="email" className={"registration-form-label"}>
+              Email
+            </label>
+            <GlobalInput id="email" />
+            {/*gender*/}
+            <div className={"d-flex-vertical"}>
+              <label htmlFor="gender" className={"registration-form-label"}>
+                Giới tính
+              </label>
+              <GlobalSelect
+                id="gender"
+                options={[
+                  { value: 0, label: "Nam" },
+                  {
+                    value: 1,
+                    label: "Nữ",
+                  },
+                ]}
+                style={{
+                  width: "100px",
+                }}
+              />
+            </div>
             <LoginBtn
               label="Đăng ký"
               labelClass="t-h5 t-normal"

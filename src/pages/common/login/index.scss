@@ -62,7 +62,7 @@
       border-bottom-left-radius: 8px;
       background: color.$white;
       display: flex;
-      height: 350px;
+      height: fit-content;
       min-width: 450px;
       justify-content: center;
 
@@ -83,7 +83,14 @@
           //height: 200px;
       }
       .registration-form {
-
+        .d-flex-vertical {
+          width: 100%;
+        }
+        .registration-form-label {
+          width: 100%;
+          margin-bottom: 5px;
+          margin-top: 8px;
+        }
       }
     }
 

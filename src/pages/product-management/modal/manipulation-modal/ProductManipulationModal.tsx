@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { GlobalModal } from "../../../module/component/Modal";
+import { GlobalModal } from "../../../../module/component/Modal";
 // @ts-ignore
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 // @ts-ignore
@@ -8,9 +8,9 @@ import { Controller, useForm } from "react-hook-form";
 import {
   GlobalInput,
   GlobalInputNumber,
-} from "../../../module/component/InputField/GlobalAnt-InputField/GlobalInput";
-import GlobalSelect from "../../../module/component/Select/GlobalSelect";
-import GlobalBtn from "../../../module/component/Button/GlobalAnt-Btn/GlobalBtn";
+} from "../../../../module/component/InputField/GlobalAnt-InputField/GlobalInput";
+import GlobalSelect from "../../../../module/component/Select/GlobalSelect";
+import GlobalBtn from "../../../../module/component/Button/GlobalAnt-Btn/GlobalBtn";
 import "./styles.scss";
 
 interface IUserManipulation {

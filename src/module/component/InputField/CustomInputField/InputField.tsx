@@ -9,6 +9,7 @@ interface ITextInputProps {
   placeholder?: string;
   icon?: ReactNode;
   direction?: string;
+  onInputChange: (e: string) => void;
 }
 
 function InputField(props: ITextInputProps) {
@@ -41,6 +42,9 @@ function InputField(props: ITextInputProps) {
         }
         className="text-field t-h5"
         placeholder={props?.placeholder}
+        onChange={(e) => {
+          props.onInputChange(e.currentTarget.value);
+        }}
       />
       {isPasswordType() ? (
         isShowPassword ? (

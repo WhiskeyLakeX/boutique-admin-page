@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import { NETWORK_CONFIG } from "../config";
 import { notification } from "antd";
 import httpStatus from "http-status";
+import { requestTypeToNotification } from "../module/utils/RequestTypeNotificationConvert";
 
 const axiosInstance = axios.create({
   headers: {
@@ -26,15 +27,7 @@ function handleErrorGeneral(): void {
 function handleSuccess(type: string | undefined) {
   notification.success({
     ...notifyConfig,
-    message: `${
-      type === "create"
-        ? "Đăng ký"
-        : type === "edit"
-        ? "Cập nhật"
-        : type === "delete"
-        ? "Xoá"
-        : "Tải danh sách"
-    } bản ghi thành công!`,
+    message: `${requestTypeToNotification(type)} thành công!`,
   });
 }
 
@@ -44,15 +37,7 @@ function handleErrorDataRequest(
 ) {
   notification.warning({
     ...notifyConfig,
-    message: `${
-      type === "create"
-        ? "Đăng ký"
-        : type === "edit"
-        ? "Cập nhật"
-        : type === "delete"
-        ? "Xoá"
-        : "Tải danh sách"
-    } bản ghi thất bại!`,
+    message: `${requestTypeToNotification(type)} thất bại!`,
     description: status_code
       ? `Error code: ${status_code} + \n + Message: ${httpStatus[status_code]}`
       : undefined,

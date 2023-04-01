@@ -5,7 +5,7 @@ import GlobalBtn from "../../module/component/Button/GlobalAnt-Btn/GlobalBtn";
 import { GlobalInputSearch } from "../../module/component/InputField/GlobalAnt-InputField/GlobalInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { regular, solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import ProductManipulationModal from "./modal/ProductManipulationModal";
+import ProductManipulationModal from "./modal/manipulation-modal/ProductManipulationModal";
 import { DeleteModal } from "../../module/component/Modal";
 import { useQuery, useMutation } from "react-query";
 import { QUERY_PRODUCT_MANAGEMENT } from "../../api/KeyQuery";
@@ -15,6 +15,7 @@ import {
 } from "../../api/collection/ProductManagement_API";
 import { TableRowWidth } from "../../config/TableRowWidth";
 import { IProduct } from "../../interface/product-management/ProductInterface";
+import DetailModal from "./modal/detail-modal/DetailModal";
 
 const ProductManagement = () => {
   const [productManipulationModalProps, setProductManipulationModalProps] =
@@ -23,28 +24,47 @@ const ProductManagement = () => {
       isOpen: false,
     });
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const [detailInformationModalStatus, setDetailInformationModalStatus] =
+    useState<{
+      isOpen: boolean;
+      product: IProduct | null;
+    }>({
+      isOpen: false,
+      product: null,
+    });
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [singleId, setSingleId] = useState([]);
 
-  const { isLoading, isError, data, error, refetch } = useQuery(
-    QUERY_PRODUCT_MANAGEMENT.GET_LIST_PRODUCT,
-    getAllProduct
-  );
+  const {
+    isLoading,
+    isError,
+    data: listOfProduct,
+    error,
+    refetch,
+  } = useQuery(QUERY_PRODUCT_MANAGEMENT.GET_LIST_PRODUCT, getAllProduct);
 
   const deleteProductMutation = useMutation(
     QUERY_PRODUCT_MANAGEMENT.DELETE_PRODUCT,
     deleteProduct
   );
-
-  const handleOpenProductManipulationModal = (type: string) => {
+  const handleToggleProductManipulationModal = (type: string) => {
     setProductManipulationModalProps({
       type: type,
       isOpen: !productManipulationModalProps.isOpen,
     });
   };
 
-  const handleOpenDeleteModal = () => {
+  const handleToggleDeleteModal = () => {
     setIsOpenDeleteModal(!isOpenDeleteModal);
+  };
+
+  const handleToggleDetailModal = (
+    record: IProduct,
+    type: "open" | "cancel"
+  ) => {
+    setDetailInformationModalStatus({
+      product: type === "open" ? record : null,
+      isOpen: !detailInformationModalStatus.isOpen,
+    });
   };
 
   const handleDeleteProduct = () => {
@@ -52,13 +72,6 @@ const ProductManagement = () => {
       onSuccess: () => {
         refetch();
       },
-    });
-  };
-
-  const handleCancelProductManipulationModal = () => {
-    setProductManipulationModalProps({
-      ...productManipulationModalProps,
-      isOpen: !productManipulationModalProps.isOpen,
     });
   };
 
@@ -133,12 +146,18 @@ const ProductManagement = () => {
               className={"edit btn"}
               role={"button"}
               onClick={() => {
-                handleOpenProductManipulationModal("edit");
+                handleToggleProductManipulationModal("edit");
               }}
             >
               <FontAwesomeIcon icon={solid("pen-to-square")} />
             </div>
-            <div className={"detail btn"} role={"button"}>
+            <div
+              className={"detail btn"}
+              role={"button"}
+              onClick={() => {
+                handleToggleDetailModal(record, "open");
+              }}
+            >
               <FontAwesomeIcon icon={solid("info")} />
             </div>
           </div>
@@ -157,7 +176,7 @@ const ProductManagement = () => {
         <div className={"action-btn"}>
           <GlobalBtn
             icon={<FontAwesomeIcon className="icon" icon={solid("plus")} />}
-            onClick={() => handleOpenProductManipulationModal("create")}
+            onClick={() => handleToggleProductManipulationModal("create")}
           >
             Đăng ký sản phẩm
           </GlobalBtn>
@@ -167,7 +186,7 @@ const ProductManagement = () => {
             }
             danger
             disabled={selectedRowKeys.length === 0}
-            onClick={handleOpenDeleteModal}
+            onClick={handleToggleDeleteModal}
           >
             Xoá
           </GlobalBtn>
@@ -177,7 +196,7 @@ const ProductManagement = () => {
         className="management-table mt-12"
         columns={productTableColumn}
         //@ts-ignore
-        dataSource={data?.data?.map((item) => {
+        dataSource={listOfProduct?.data?.data.map((item) => {
           return { ...item, key: item.id };
         })}
         rowSelection={rowSelection}
@@ -187,12 +206,18 @@ const ProductManagement = () => {
       <ProductManipulationModal
         isOpen={productManipulationModalProps.isOpen}
         type={productManipulationModalProps.type}
-        cancel={handleCancelProductManipulationModal}
+        //@ts-ignored
+        cancel={handleToggleProductManipulationModal}
       ></ProductManipulationModal>
       <DeleteModal
         isOpen={isOpenDeleteModal}
         onOk={handleDeleteProduct}
-        onCancel={handleOpenDeleteModal}
+        onCancel={handleToggleDeleteModal}
+      />
+      <DetailModal
+        product={detailInformationModalStatus.product}
+        isOpen={detailInformationModalStatus.isOpen}
+        handleOpenDetailModal={handleToggleDetailModal}
       />
     </div>
   );

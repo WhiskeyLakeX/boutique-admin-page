@@ -15,6 +15,11 @@ export interface IRoute extends Object {
 
 const routes: IRoute[] = [
   {
+    path: "/login",
+    name: "Login Page",
+    element: <Login />,
+  },
+  {
     path: "*",
     name: "404 Page",
     element: <Route404 />,
