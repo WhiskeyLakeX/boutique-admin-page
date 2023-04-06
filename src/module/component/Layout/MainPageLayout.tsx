@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   LogoutOutlined,
   MenuFoldOutlined,
@@ -9,6 +9,9 @@ import { Layout, Menu, Avatar } from "antd";
 import SidebarItem from "./Sidebar/SidebarItem";
 import { useNavigate } from "react-router-dom";
 import RouteList, { IRoute } from "../../../routes/RouteList";
+import { useSelector, useDispatch } from "react-redux";
+import UserAction from "../../../redux/actions/UserAction";
+import { handleSuccess } from "../../utils/Notification";
 interface IDashboardLayoutProps {
   children?: React.ReactNode;
 }
@@ -17,7 +20,16 @@ const { Header, Sider, Content } = Layout;
 
 const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
   const [collapsed, setCollapsed] = useState(false);
-  const navigate = useNavigate();
+  const [username, setUsername] = useState<string>("");
+  const selector = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(UserAction.userLogout());
+    handleSuccess("logout");
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 500);
+  };
   const findNavigatePath = (arr: IRoute[], key: string): string => {
     let finalPath = "";
     arr.forEach((item) => {
@@ -31,6 +43,12 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
     });
     return finalPath;
   };
+
+  useEffect(() => {
+    //@ts-ignored
+    const username = selector.userReducer.username;
+    setUsername(username);
+  }, [username]);
 
   return (
     <Layout className={"antd-layout"}>
@@ -57,7 +75,7 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
               }
             />
           </div>
-          {collapsed || <div className="username t-h5 t-bold">Son Nguyen</div>}
+          {collapsed || <div className="username t-h5 t-bold">{username}</div>}
         </div>
 
         <Menu
@@ -83,7 +101,7 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
               <MenuFoldOutlined size={15} />
             )}
           </div>
-          <div className="log-out-btn">
+          <div className="log-out-btn" role={"button"} onClick={handleLogout}>
             <div className="log-out-text">Đăng xuất</div>
             <LogoutOutlined
               className="log-out-icon"

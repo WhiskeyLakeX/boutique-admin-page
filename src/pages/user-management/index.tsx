@@ -136,7 +136,6 @@ const UserManagement = () => {
       dataIndex: "dateOfBirth",
       key: "dateOfBirth",
       render: (text: string, record: Object, index: number) => {
-        // console.log(dayjs(text, "YYYY-MM-DD").diff(dayjs(), "year"));
         const t = dayjs();
         return (
           <Tooltip

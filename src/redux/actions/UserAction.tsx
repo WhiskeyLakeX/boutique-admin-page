@@ -1,5 +1,17 @@
 import UserConstant from "../constants/UserConstant";
 
-interface IUserAction {}
+interface IUser {
+  accessToken: string;
+  role: number;
+  username: string;
+}
 
-const initialState = {};
+export default {
+  userLogin: (payload: IUser) => ({
+    type: UserConstant.USER_LOGIN,
+    payload,
+  }),
+  userLogout: () => ({
+    type: UserConstant.USER_LOGOUT,
+  }),
+};

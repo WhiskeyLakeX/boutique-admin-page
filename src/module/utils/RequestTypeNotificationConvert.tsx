@@ -10,6 +10,8 @@ export function requestTypeToNotification(reqType?: string) {
       return "Cập nhật";
     case "delete":
       return "Xoá";
+    case "logout":
+      return "Đăng xuất";
     default:
       return "Tải danh sách";
   }

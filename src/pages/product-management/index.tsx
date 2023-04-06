@@ -8,7 +8,7 @@ import { regular, solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import ProductManipulationModal from "./modal/manipulation-modal/ProductManipulationModal";
 import { DeleteModal } from "../../module/component/Modal";
 import { useQuery, useMutation } from "react-query";
-import { QUERY_PRODUCT_MANAGEMENT } from "../../api/KeyQuery";
+import { PRODUCT_MANAGEMENT } from "../../api/KeyQuery";
 import {
   deleteProduct,
   getAllProduct,
@@ -40,10 +40,10 @@ const ProductManagement = () => {
     data: listOfProduct,
     error,
     refetch,
-  } = useQuery(QUERY_PRODUCT_MANAGEMENT.GET_LIST_PRODUCT, getAllProduct);
+  } = useQuery(PRODUCT_MANAGEMENT.GET_LIST_PRODUCT, getAllProduct);
 
   const deleteProductMutation = useMutation(
-    QUERY_PRODUCT_MANAGEMENT.DELETE_PRODUCT,
+    PRODUCT_MANAGEMENT.DELETE_PRODUCT,
     deleteProduct
   );
   const handleToggleProductManipulationModal = (type: string) => {

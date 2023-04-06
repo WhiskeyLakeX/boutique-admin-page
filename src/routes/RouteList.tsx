@@ -4,6 +4,7 @@ import Login from "../pages/common/login/Login";
 import ProductManagement from "../pages/product-management";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Dashboard from "../pages/dashboard";
 
 export interface IRoute extends Object {
   path: string;
@@ -31,7 +32,8 @@ const routes: IRoute[] = [
       {
         path: "dashboard",
         name: "Bảng điều khiển",
-        element: <Route404 />,
+        isSideBar: true,
+        element: <Dashboard />,
       },
       {
         path: "user-management",

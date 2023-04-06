@@ -2,12 +2,22 @@ import React from "react";
 import { RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import router from "./routes";
-import rdPersistFunction from "../src/redux/store";
+import { store, persistor } from "../src/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { handleNoValidAccessToken } from "./module/utils/Notification";
 
 function App() {
-  const { store, persistor } = rdPersistFunction();
+  if (
+    window.location.pathname !== "/login" &&
+    // @ts-ignore
+    !store.getState().userReducer.accessToken
+  ) {
+    handleNoValidAccessToken();
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 1500);
+  }
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
