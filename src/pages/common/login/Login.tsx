@@ -67,7 +67,7 @@ function Login() {
     if (accessToken) {
       navigator("/dashboard");
     }
-  }, []);
+  }, [navigator]);
   const handleRegister = () => {
     registerMutation.mutate(registerFormData, {
       onSuccess: () => {

@@ -7,7 +7,6 @@ import {
 import "./styles.scss";
 import { Layout, Menu, Avatar } from "antd";
 import SidebarItem from "./Sidebar/SidebarItem";
-import { useNavigate } from "react-router-dom";
 import RouteList, { IRoute } from "../../../routes/RouteList";
 import { useSelector, useDispatch } from "react-redux";
 import UserAction from "../../../redux/actions/UserAction";
