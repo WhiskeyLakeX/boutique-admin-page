@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import router from "./routes";
@@ -8,16 +8,24 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { handleNoValidAccessToken } from "./module/utils/Notification";
 
 function App() {
-  if (
-    window.location.pathname !== "/login" &&
-    // @ts-ignore
-    !store.getState().userReducer.accessToken
-  ) {
-    handleNoValidAccessToken();
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 1500);
+  if (window.location.pathname === "/") {
+    window.location.href = "/dashboard";
   }
+  useEffect(() => {
+    return () => {
+      if (
+        window.location.pathname !== "/login" &&
+        // @ts-ignore
+        !store.getState().userReducer.accessToken
+      ) {
+        handleNoValidAccessToken();
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 1500);
+      }
+    };
+  }, []);
+
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {

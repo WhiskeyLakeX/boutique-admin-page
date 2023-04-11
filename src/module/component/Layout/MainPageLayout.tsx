@@ -11,6 +11,11 @@ import RouteList, { IRoute } from "../../../routes/RouteList";
 import { useSelector, useDispatch } from "react-redux";
 import UserAction from "../../../redux/actions/UserAction";
 import { handleSuccess } from "../../utils/Notification";
+import { PATHNAME } from "../../../config";
+import { useNavigate } from "react-router-dom";
+import { forEach } from "lodash";
+import { handleConvertArrToPath } from "../../utils/ConvertArrToPath";
+import Sidebar from "./Sidebar/Sidebar";
 interface IDashboardLayoutProps {
   children?: React.ReactNode;
 }
@@ -26,22 +31,10 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
     dispatch(UserAction.userLogout());
     handleSuccess("logout");
     setTimeout(() => {
-      window.location.href = "/login";
+      window.location.href = PATHNAME.LOGIN;
     }, 500);
   };
-  const findNavigatePath = (arr: IRoute[], key: string): string => {
-    let finalPath = "";
-    arr.forEach((item) => {
-      if (item.path && item.path === key) {
-        finalPath.concat(item.path);
-        console.log("final path", finalPath);
-      }
-      if (item.children && item.children.length > 0) {
-        findNavigatePath(item.children, item.path);
-      }
-    });
-    return finalPath;
-  };
+  console.log("Layout rerender");
 
   useEffect(() => {
     //@ts-ignored
@@ -76,16 +69,7 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
           </div>
           {collapsed || <div className="username t-h5 t-bold">{username}</div>}
         </div>
-
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["1"]}
-          items={SidebarItem()}
-          onSelect={({ item, key, keyPath }) => {
-            console.log("Key ", key, "   ", findNavigatePath(RouteList, key));
-          }}
-        />
+        <Sidebar />
       </Sider>
       <Layout className="site-layout">
         <Header className="antd-header">

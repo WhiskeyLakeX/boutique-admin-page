@@ -1,0 +1,27 @@
+@use "src/styles/components/color";
+
+.btn {
+  height: 30px;
+  width: 30px;
+  min-width: 30px;
+  border-radius: 8px;
+
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: color.$gray-200;
+}
+
+.edit {
+  &:hover {
+    background: color.$amber-300;
+  }
+}
+
+.detail {
+  &:hover {
+    background: color.$blue-200;
+  }
+}

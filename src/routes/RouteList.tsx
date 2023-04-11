@@ -5,6 +5,8 @@ import ProductManagement from "../pages/product-management";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Dashboard from "../pages/dashboard";
+import CategoryManagement from "../pages/category-management";
+import InitialPage from "../pages/InitialPage";
 
 export interface IRoute extends Object {
   path: string;
@@ -21,57 +23,63 @@ const routes: IRoute[] = [
     element: <Login />,
   },
   {
-    path: "*",
-    name: "404 Page",
-    element: <Route404 />,
+    path: "dashboard",
+    name: "Bảng điều khiển",
+    isSideBar: true,
+    element: <Dashboard />,
   },
   {
-    path: "/",
-    name: "Trang chủ",
+    path: "user-management",
+    name: "Quản lý người dùng",
     children: [
       {
-        path: "dashboard",
-        name: "Bảng điều khiển",
+        name: "Tài khoản khách hàng",
+        path: "customer-account",
         isSideBar: true,
-        element: <Dashboard />,
+        element: <ProductManagement />,
       },
       {
-        path: "user-management",
-        name: "Quản lý người dùng",
-        children: [
-          {
-            name: "Tài khoản khách hàng",
-            path: "customer-account",
-            isSideBar: true,
-            element: <ProductManagement />,
-          },
-          {
-            name: "Khách hàng thân thiết",
-            path: "customer-familiar",
-            isSideBar: true,
-            element: <Route404 />,
-          },
-          {
-            name: "Tài khoản QTV",
-            path: "admin-account",
-            isSideBar: true,
-            element: <Route404 />,
-          },
-        ],
-      },
-      {
-        path: "product-management",
-        name: "Quản lý sản phẩm",
+        name: "Khách hàng thân thiết",
+        path: "customer-familiar",
         isSideBar: true,
         element: <Route404 />,
       },
       {
-        path: "warehouse-management",
-        name: "Quản lý kho",
+        name: "Tài khoản QTV",
+        path: "admin-account",
         isSideBar: true,
         element: <Route404 />,
       },
     ],
+  },
+  {
+    path: "order-management",
+    name: "Quản lý đơn hàng",
+    isSideBar: true,
+    element: <Route404 />,
+  },
+  {
+    path: "product-management",
+    name: "Quản lý sản phẩm",
+    isSideBar: true,
+    element: <ProductManagement />,
+  },
+  {
+    path: "category-management",
+    name: "Quản lý danh mục",
+    isSideBar: true,
+    element: <CategoryManagement />,
+  },
+  {
+    path: "warehouse-management",
+    name: "Quản lý kho",
+    isSideBar: true,
+    element: <Route404 />,
+  },
+  {
+    path: "*",
+    name: "404 Page",
+    element: <Route404 />,
   },
 ];
 

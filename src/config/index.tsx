@@ -11,7 +11,7 @@ export const NETWORK_CONFIG = {
 
 // PATHNAME
 export const PATHNAME = {
-  HOME: "/",
+  HOME: "/dashboard",
   LOGIN: "/login",
 };
 

@@ -16,6 +16,10 @@ import {
 import { TableRowWidth } from "../../config/TableRowWidth";
 import { IProduct } from "../../interface/product-management/ProductInterface";
 import DetailModal from "./modal/detail-modal/DetailModal";
+import {
+  DetailedInfoActionBtn,
+  EditActionBtn,
+} from "../../module/component/Button/ActionBtn/ActionButton";
 
 const ProductManagement = () => {
   const [productManipulationModalProps, setProductManipulationModalProps] =
@@ -92,31 +96,31 @@ const ProductManagement = () => {
       render: (text: string, record: Object, index: number) => {
         return index;
       },
-      width: TableRowWidth.no,
+      width: 50,
     },
     {
       title: "ID",
       dataIndex: "id",
       key: "id",
-      width: TableRowWidth.id,
+      width: 50,
     },
     {
       title: "Tên sản phẩm",
       dataIndex: "name",
       key: "name",
-      width: TableRowWidth.productName,
+      width: 150,
     },
     {
       title: "Danh mục",
       dataIndex: "category_id",
       key: "category",
-      width: TableRowWidth.category,
+      width: 100,
     },
     {
       title: "Giá tiền (VND)",
       dataIndex: "price",
       key: "price",
-      width: TableRowWidth.price,
+      width: 100,
     },
     {
       title: "Mô tả ngắn",
@@ -132,7 +136,7 @@ const ProductManagement = () => {
           </Tooltip>
         );
       },
-      width: TableRowWidth.product_short_description,
+      width: 200,
     },
     {
       title: "Thao tác",
@@ -142,28 +146,20 @@ const ProductManagement = () => {
       render: (text: string, record: IProduct, index: number) => {
         return (
           <div className={"list-btn"}>
-            <div
-              className={"edit btn"}
-              role={"button"}
-              onClick={() => {
+            <EditActionBtn
+              onClickFunction={() => {
                 handleToggleProductManipulationModal("edit");
               }}
-            >
-              <FontAwesomeIcon icon={solid("pen-to-square")} />
-            </div>
-            <div
-              className={"detail btn"}
-              role={"button"}
-              onClick={() => {
+            />
+            <DetailedInfoActionBtn
+              onClickFunction={() => {
                 handleToggleDetailModal(record, "open");
               }}
-            >
-              <FontAwesomeIcon icon={solid("info")} />
-            </div>
+            />
           </div>
         );
       },
-      width: TableRowWidth.actionCol,
+      width: 70,
     },
   ];
 
@@ -201,7 +197,7 @@ const ProductManagement = () => {
         })}
         rowSelection={rowSelection}
         loading={isLoading}
-        scroll={{ y: 500 }}
+        scroll={{ x: 100, y: 480 }}
       />
       <ProductManipulationModal
         isOpen={productManipulationModalProps.isOpen}

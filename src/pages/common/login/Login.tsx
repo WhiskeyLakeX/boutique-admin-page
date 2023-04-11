@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./index.scss";
-import InputField from "../../../module/component/InputField/CustomInputField/InputField";
 import LoginBtn from "../../../module/component/Button/CustomLoginBtn/LoginBtn";
 import { useMutation } from "react-query";
 import { login, registerAdminAccount } from "../../../api/collection/Login_API";
@@ -12,13 +11,31 @@ import { useDispatch } from "react-redux";
 import UserAction from "../../../redux/actions/UserAction";
 import { useNavigate } from "react-router-dom";
 import { store } from "../../../redux/store";
+import { Button, Form, Input } from "antd";
+
+import { requiredMessage } from "../../../module/utils/ValidationMesssage";
+
+interface ILoginForm {
+  username: string;
+  password: string;
+}
+
+interface IRegisterForm extends ILoginForm {
+  fullname: string;
+  phone_number: string;
+  email: string;
+  gender?: number;
+  dob?: string;
+  address: string;
+  role_id: 0;
+}
 
 function Login() {
   const [btnStatus, setBtnStatus] = useState("login");
-  const [loginFormData, setLoginFormData] = useState({
-    username: "",
-    password: "",
-  });
+  // const [loginFormData, setLoginFormData] = useState({
+  //   username: "",
+  //   password: "",
+  // });
   const [registerFormData, setRegisterFormData] = useState({
     username: "",
     password: "",
@@ -44,7 +61,8 @@ function Login() {
     USER_ADMIN.REGISTER,
     registerAdminAccount
   );
-  const handleLogin = () => {
+
+  const handleLogin = (loginFormData: ILoginForm) => {
     loginMutation.mutate(loginFormData, {
       onSuccess: (res: any) => {
         const dataUser = {
@@ -81,39 +99,57 @@ function Login() {
         return (
           <div className="login-form form">
             <div className="t-h4 t-bold form-title">Đăng nhập</div>
-            <InputField
-              placeholder={"Tên đăng nhập"}
-              title={"Tên đăng nhập"}
-              titleDirection={"vertical"}
-              onInputChange={(value: string) => {
-                setLoginFormData({
-                  ...loginFormData,
-                  password: value,
-                });
-              }}
-            />
-            <InputField
-              type="password"
-              title={"Mật khẩu"}
-              titleDirection={"vertical"}
-              onInputChange={(value: string) => {
-                setLoginFormData({
-                  ...loginFormData,
-                  username: value,
-                });
-              }}
-              placeholder={"Mật khẩu"}
-            />
-            <div role={"button"} onClick={handleLogin}>
-              <LoginBtn
-                label="Đăng nhập"
-                labelClass="t-h5 t-normal"
-                labelTextColor="black"
-                borderRadius="5px"
-                margin="20px 0px 0px 0px"
-                padding="5px 20px 5px 20px"
-              />
-            </div>
+            <Form
+              name="basic"
+              initialValues={{ remember: true }}
+              onFinish={handleLogin}
+              autoComplete="off"
+              layout={"vertical"}
+              style={{ minWidth: "90%" }}
+            >
+              <Form.Item
+                label="Tên đăng nhập"
+                name="username"
+                rules={[
+                  { required: true, message: requiredMessage("tên đăng nhập") },
+                ]}
+                style={{
+                  marginBottom: "12px",
+                }}
+              >
+                <Input size={"large"} />
+              </Form.Item>
+
+              <Form.Item
+                label="Mật khẩu"
+                name="password"
+                rules={[
+                  { required: true, message: requiredMessage("mật khẩu") },
+                ]}
+              >
+                <Input.Password size={"large"} />
+              </Form.Item>
+
+              {/*<Form.Item name="remember" valuePropName="checked">*/}
+              {/*  <Checkbox>Remember me</Checkbox>*/}
+              {/*</Form.Item>*/}
+
+              <Form.Item
+                wrapperCol={{ offset: 8, span: 16 }}
+                style={{
+                  marginTop: 15,
+                }}
+              >
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  size={"large"}
+                  className={"login-btn"}
+                >
+                  Đăng nhập
+                </Button>
+              </Form.Item>
+            </Form>
           </div>
         );
       case "register":
@@ -248,7 +284,7 @@ function Login() {
                 labelClass="t-h5 t-normal"
                 labelTextColor="black"
                 borderRadius="5px"
-                margin="20px 0px 0px 0px"
+                margin="20px 0px 20px 0px"
                 padding="5px 20px 5px 20px"
               />
             </div>

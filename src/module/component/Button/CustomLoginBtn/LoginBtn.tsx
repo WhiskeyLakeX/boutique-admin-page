@@ -1,5 +1,7 @@
 import React, { ReactElement } from "react";
 import "./index.scss";
+import { Simulate } from "react-dom/test-utils";
+import submit = Simulate.submit;
 
 interface IButtonProps {
   height?: string;
@@ -20,9 +22,10 @@ interface IButtonProps {
 
 const LoginBtn = (props: IButtonProps) => {
   return (
-    <div
+    <button
       role="button"
       className="b-wrapper"
+      type={"submit"}
       style={{
         background: `${
           props.backgroundColor ? props.backgroundColor : "#FFFFFF"
@@ -43,7 +46,7 @@ const LoginBtn = (props: IButtonProps) => {
       >
         {props.label}
       </div>
-    </div>
+    </button>
   );
 };
 

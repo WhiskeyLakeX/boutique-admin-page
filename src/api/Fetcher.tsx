@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { NETWORK_CONFIG } from "../config";
+import { NETWORK_CONFIG, PATHNAME } from "../config";
 import { store } from "../redux/store";
 import {
   handleErrorGeneral,
@@ -7,15 +7,19 @@ import {
   handleNoValidAccessToken,
   handleErrorDataRequest,
 } from "../module/utils/Notification";
+import { checkIfNoAccessTokenNeeded } from "../module/utils/CheckIfNoAccessTokenNeeded";
 
 async function fetcher(config: AxiosRequestConfig, reqType?: string) {
   // @ts-ignore
   let accessToken = store.getState().userReducer.accessToken;
-  if (!accessToken && reqType !== "login") {
-    handleNoValidAccessToken();
-    window.location.href = "/login";
-    return;
+  if (reqType) {
+    if (!accessToken && !checkIfNoAccessTokenNeeded(reqType)) {
+      handleNoValidAccessToken();
+      window.location.href = PATHNAME.LOGIN;
+      return;
+    }
   }
+
   const axiosInstance = axios.create({
     headers: {
       "Content-Type": "application/json",

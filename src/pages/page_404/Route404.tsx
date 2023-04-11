@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import img_404 from "../../assets/404_page.png";
-import "./index.scss";
+import "./styles.scss";
 import { useNavigate } from "react-router-dom";
 export default function Route404(): JSX.Element {
   const [count, setCount] = useState(80);
@@ -20,10 +20,16 @@ export default function Route404(): JSX.Element {
 
   return (
     <div className="page-wrapper">
-      <img />
+      <img
+        alt={"404-img"}
+        src={img_404}
+        style={{
+          maxHeight: "400px",
+        }}
+      />
       <div className="text-container">
-        <div className="notify t-lighter t-h4">This URL does not exist!</div>
-        <div className="notify t-lighter t-h4">
+        <div className="t-lighter t-h4">This URL does not exist!</div>
+        <div className="t-lighter t-h4">
           Back to dashboard in {count} {count > 1 ? "seconds" : "second"}
         </div>
         <div

@@ -25,6 +25,12 @@ function getItem(
 const SidebarItem = (): MenuItem[] => {
   return [
     getItem(
+      "Thông tin hệ thống",
+      "dashboard",
+      <FontAwesomeIcon icon={solid("infinity")} />
+    ),
+    { type: "divider" },
+    getItem(
       "Chung",
       "common",
       null,
@@ -80,6 +86,11 @@ const SidebarItem = (): MenuItem[] => {
           "Quản lý sản phẩm",
           "product-management",
           <FontAwesomeIcon icon={solid("hat-cowboy-side")} />
+        ),
+        getItem(
+          "Quản lý danh mục",
+          "category-management",
+          <FontAwesomeIcon icon={solid("list-ul")} />
         ),
         getItem(
           "Quản lý kho",

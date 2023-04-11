@@ -16,7 +16,6 @@ code {
     monospace;
 }
 .App {
-  min-width: 100vw;
   min-height: 100vh;
   display: flex;
 }

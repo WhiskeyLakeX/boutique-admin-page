@@ -23,7 +23,6 @@ export function handleSuccess(type: string | undefined) {
 }
 
 export function handleNoValidAccessToken() {
-  console.log("Valid");
   notification.warning({
     ...notifyConfig,
     message: "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!",
