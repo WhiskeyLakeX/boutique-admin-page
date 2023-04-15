@@ -5,17 +5,15 @@ import {
   MenuUnfoldOutlined,
 } from "@ant-design/icons";
 import "./styles.scss";
-import { Layout, Menu, Avatar } from "antd";
-import SidebarItem from "./Sidebar/SidebarItem";
-import RouteList, { IRoute } from "../../../routes/RouteList";
-import { useSelector, useDispatch } from "react-redux";
+import { Avatar, Layout } from "antd";
+
+import { useDispatch, useSelector } from "react-redux";
 import UserAction from "../../../redux/actions/UserAction";
 import { handleSuccess } from "../../utils/Notification";
 import { PATHNAME } from "../../../config";
-import { useNavigate } from "react-router-dom";
-import { forEach } from "lodash";
-import { handleConvertArrToPath } from "../../utils/ConvertArrToPath";
+
 import Sidebar from "./Sidebar/Sidebar";
+
 interface IDashboardLayoutProps {
   children?: React.ReactNode;
 }
@@ -34,7 +32,7 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
       window.location.href = PATHNAME.LOGIN;
     }, 500);
   };
-  console.log("Layout rerender");
+  // console.log("Layout rerender");
 
   useEffect(() => {
     //@ts-ignored

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const navigator = useNavigate();
-  console.log("Sidebar rerender");
+  // console.log("Sidebar rerender");
   return (
     <Menu
       theme="dark"

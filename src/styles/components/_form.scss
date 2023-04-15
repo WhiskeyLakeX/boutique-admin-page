@@ -1,3 +1,4 @@
+@use "src/styles/components/color";
 .manipulation-form-wrapper {
   display: flex;
   flex-direction: column;
@@ -15,4 +16,8 @@
     column-gap: 5px;
     justify-content: flex-end;
   }
+}
+
+.error-message {
+  color: color.$red-500;
 }

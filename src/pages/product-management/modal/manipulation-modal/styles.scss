@@ -1,0 +1,16 @@
+.form-wrapper {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  .product-info-section {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .ck-editor-section {
+    .ck-editor__editable {
+      min-height: 470px;
+      max-height: 470px;
+    }
+  }
+}

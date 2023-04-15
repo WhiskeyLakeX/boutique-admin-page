@@ -1,8 +1,8 @@
 export const maxLengthMessage = (field: string, max: number) => {
-  return `${field} không vượt quá ${max} ký tự`;
+  return `Dữ liệu ${field} không vượt quá ${max} ký tự`;
 };
 export const minLengthMessage = (field: string, min: number) => {
-  return `${field} không ít hơn ${min} ký tự`;
+  return `Dữ liệu ${field} không ít hơn ${min} ký tự`;
 };
 export const requiredMessage = (field: string) => {
   return `Dữ liệu ${field} là bắt buộc`;

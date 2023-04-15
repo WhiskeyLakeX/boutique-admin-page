@@ -4,7 +4,7 @@ import httpStatus from "http-status";
 
 const notifyConfig = notification.config({
   placement: "topRight",
-  duration: 3,
+  duration: 2,
   maxCount: 3,
 });
 

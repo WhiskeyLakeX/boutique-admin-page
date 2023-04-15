@@ -10,8 +10,7 @@ function getItem(
   key: React.Key | undefined,
   icon?: React.ReactNode,
   children?: MenuItem[],
-  type?: "group",
-  onTitleClick?: () => void
+  type?: "group"
 ): MenuItem {
   return {
     key,
@@ -19,7 +18,6 @@ function getItem(
     children,
     label,
     type,
-    onTitleClick,
   } as MenuItem;
 }
 const SidebarItem = (): MenuItem[] => {

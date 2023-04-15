@@ -10,6 +10,7 @@ const USER_MANAGEMENT = {
 const PRODUCT_MANAGEMENT = {
   GET_LIST_PRODUCT: "get_list_product",
   DELETE_PRODUCT: "delete_product",
+  CREATE_PRODUCT: "create_product",
 };
 
 const CATEGORY_MANAGEMENT = {

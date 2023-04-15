@@ -7,13 +7,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { regular, solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import ProductManipulationModal from "./modal/manipulation-modal/ProductManipulationModal";
 import { DeleteModal } from "../../module/component/Modal";
-import { useQuery, useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { PRODUCT_MANAGEMENT } from "../../api/KeyQuery";
 import {
   deleteProduct,
   getAllProduct,
 } from "../../api/collection/ProductManagement_API";
-import { TableRowWidth } from "../../config/TableRowWidth";
 import { IProduct } from "../../interface/product-management/ProductInterface";
 import DetailModal from "./modal/detail-modal/DetailModal";
 import {
@@ -37,13 +36,12 @@ const ProductManagement = () => {
       product: null,
     });
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [selectedRecord, setSelectedRecord] = useState<IProduct>();
 
   const {
-    isLoading,
-    isError,
+    isLoading: isProductLoading,
     data: listOfProduct,
-    error,
-    refetch,
+    refetch: refetchProduct,
   } = useQuery(PRODUCT_MANAGEMENT.GET_LIST_PRODUCT, getAllProduct);
 
   const deleteProductMutation = useMutation(
@@ -74,7 +72,7 @@ const ProductManagement = () => {
   const handleDeleteProduct = () => {
     deleteProductMutation.mutate(selectedRowKeys, {
       onSuccess: () => {
-        refetch();
+        refetchProduct();
       },
     });
   };
@@ -139,6 +137,22 @@ const ProductManagement = () => {
       width: 200,
     },
     {
+      title: "Mô tả chi tiết",
+      dataIndex: "long_description",
+      key: "long_description",
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text: string) => {
+        return (
+          <Tooltip placement="topLeft" title={text}>
+            {text}
+          </Tooltip>
+        );
+      },
+      width: 200,
+    },
+    {
       title: "Thao tác",
       dataIndex: "action",
       key: "action",
@@ -148,6 +162,7 @@ const ProductManagement = () => {
           <div className={"list-btn"}>
             <EditActionBtn
               onClickFunction={() => {
+                setSelectedRecord(record);
                 handleToggleProductManipulationModal("edit");
               }}
             />
@@ -162,11 +177,10 @@ const ProductManagement = () => {
       width: 70,
     },
   ];
-
   return (
     <div className="management-antd-table-container">
       <div className="utils-bar">
-        <Tooltip title={"Từ khoá: "} placement={"topLeft"}>
+        <Tooltip title={"Từ khoá: Tên sản phẩm"} placement={"topLeft"}>
           <GlobalInputSearch />
         </Tooltip>
         <div className={"action-btn"}>
@@ -196,15 +210,17 @@ const ProductManagement = () => {
           return { ...item, key: item.id };
         })}
         rowSelection={rowSelection}
-        loading={isLoading}
-        scroll={{ x: 100, y: 480 }}
+        loading={isProductLoading}
+        scroll={{ x: 400 }}
       />
       <ProductManipulationModal
+        refetch={refetchProduct}
+        selectedRecord={selectedRecord}
         isOpen={productManipulationModalProps.isOpen}
         type={productManipulationModalProps.type}
         //@ts-ignored
         cancel={handleToggleProductManipulationModal}
-      ></ProductManipulationModal>
+      />
       <DeleteModal
         isOpen={isOpenDeleteModal}
         onOk={handleDeleteProduct}

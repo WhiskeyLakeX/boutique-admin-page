@@ -4,7 +4,7 @@ import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./styles.scss";
 export const GlobalModal = (props: JSX.IntrinsicAttributes & ModalProps) => {
-  return <Modal {...props} />;
+  return <Modal {...props} centered={true} />;
 };
 
 export const DeleteModal = ({

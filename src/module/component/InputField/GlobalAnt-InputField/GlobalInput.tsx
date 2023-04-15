@@ -8,6 +8,7 @@ import {
 } from "antd";
 import { SearchProps } from "antd/es/input";
 import { ValueType } from "@rc-component/mini-decimal";
+import TextArea, { TextAreaProps, TextAreaRef } from "antd/es/input/TextArea";
 
 const GlobalInput = (
   props: JSX.IntrinsicAttributes & InputProps & React.RefAttributes<InputRef>
@@ -34,14 +35,15 @@ const GlobalInputNumber = (
       ref?: React.Ref<HTMLInputElement> | undefined;
     }
 ) => {
-  return (
-    <InputNumber
-      {...props}
-      style={{
-        maxWidth: "200px",
-      }}
-    />
-  );
+  return <InputNumber {...props} />;
 };
 
-export { GlobalInput, GlobalInputSearch, GlobalInputNumber };
+const GlobalTextArea = (
+  props: JSX.IntrinsicAttributes &
+    TextAreaProps &
+    React.RefAttributes<TextAreaRef>
+) => {
+  return <TextArea {...props} />;
+};
+
+export { GlobalInput, GlobalInputSearch, GlobalInputNumber, GlobalTextArea };
