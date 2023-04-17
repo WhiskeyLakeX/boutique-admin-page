@@ -119,6 +119,11 @@ const SidebarItem = (): MenuItem[] => {
       ],
       "group"
     ),
+    getItem(
+      "Đăng xuất",
+      "logout",
+      <FontAwesomeIcon icon={solid("circle-arrow-left")} />
+    ),
   ];
 };
 

@@ -2,11 +2,8 @@ import React, { ReactNode } from "react";
 import Route404 from "../pages/page_404/Route404";
 import Login from "../pages/common/login/Login";
 import ProductManagement from "../pages/product-management";
-import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Dashboard from "../pages/dashboard";
 import CategoryManagement from "../pages/category-management";
-import InitialPage from "../pages/InitialPage";
 
 export interface IRoute extends Object {
   path: string;

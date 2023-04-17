@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Table, Tooltip } from "antd";
-import { IProduct } from "../../interface/product-management/ProductInterface";
 import { useQuery } from "react-query";
 import { CATEGORY_MANAGEMENT } from "../../api/KeyQuery";
 import { getAllCategory } from "../../api/collection/CategoryManagement_API";
@@ -35,7 +34,14 @@ const CategoryManagement = () => {
     isLoading,
     refetch,
   } = useQuery(CATEGORY_MANAGEMENT.GET_LIST_CATEGORY, getAllCategory);
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
 
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
   const categoryTableColumns = [
     {
       title: "No.",
@@ -69,10 +75,15 @@ const CategoryManagement = () => {
       dataIndex: "action",
       key: "action",
       fixed: true,
-      render: (text: string, record: IProduct, index: number) => {
+      render: (text: string, record: ICategory, index: number) => {
         return (
           <div className={"list-btn"}>
-            <EditActionBtn />
+            <EditActionBtn
+              onClickFunction={() => {
+                setSelectedRecord(record);
+                handleToggleManipulationModal("edit");
+              }}
+            />
           </div>
         );
       },
@@ -112,15 +123,15 @@ const CategoryManagement = () => {
         dataSource={listOfCategory?.data?.data.map((item) => {
           return { ...item, key: item.id };
         })}
-        // rowSelection={rowSelection}
+        rowSelection={rowSelection}
         loading={isLoading}
-        // scroll={{ y: 500, x: 700 }}
       />
       <CategoryManipulationModal
         isOpen={manipulationModalProps.isOpen}
         type={manipulationModalProps.type}
         cancel={handleToggleManipulationModal}
         refetch={refetch}
+        selectedRecord={selectedRecord}
       />
     </div>
   );

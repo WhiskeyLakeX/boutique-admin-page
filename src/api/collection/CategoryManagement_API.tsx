@@ -3,7 +3,7 @@ import { ICategory } from "../../interface/category-management/CategoryInterface
 
 const endpoint = {
   getAllCategory: "/categories",
-  editCategory: "/category-edit",
+  updateCategory: "/category/update",
   deleteCategory: "/categories/delete",
   createCategory: "/categories/create",
 };
@@ -22,5 +22,18 @@ export function createCategory(data: ICategory) {
       data: data,
     },
     "create"
+  );
+}
+
+export function updateCategory(data: ICategory) {
+  // console.log(data);
+  return fetcher(
+    {
+      method: "PUT",
+      url: endpoint.updateCategory,
+      data: data,
+      params: data.id,
+    },
+    "edit"
   );
 }

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import img_404 from "../../assets/404_page.png";
 import "./styles.scss";
 import { useNavigate } from "react-router-dom";
+
 export default function Route404(): JSX.Element {
-  const [count, setCount] = useState(80);
+  const [count, setCount] = useState(5);
   const navigate = useNavigate();
 
   useEffect(() => {

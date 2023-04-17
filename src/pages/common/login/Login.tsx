@@ -202,7 +202,6 @@ function Login() {
                 placeholder={"Ngày sinh"}
                 id="dob"
                 onChange={(date: Date, dateString: string) => {
-                  console.log(dateString);
                   setRegisterFormData({
                     ...registerFormData,
                     dob: dateString,

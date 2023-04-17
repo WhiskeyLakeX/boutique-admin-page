@@ -7,7 +7,10 @@ import GlobalBtn from "../../../module/component/Button/GlobalAnt-Btn/GlobalBtn"
 import { requiredMessage } from "../../../module/utils/ValidationMesssage";
 import { ICategory } from "../../../interface/category-management/CategoryInterface";
 import { useMutation } from "react-query";
-import { createCategory } from "../../../api/collection/CategoryManagement_API";
+import {
+  createCategory,
+  updateCategory,
+} from "../../../api/collection/CategoryManagement_API";
 
 const CategoryManipulationModal = ({
   type,
@@ -18,12 +21,22 @@ const CategoryManipulationModal = ({
   refetch,
 }: IManipulationModal) => {
   const [form] = Form.useForm();
-  const categoryMutation = useMutation(createCategory);
+  const categoryCreateMutation = useMutation(createCategory);
+  const categoryUpdateMutation = useMutation(updateCategory);
   const handleSubmit = (formData: ICategory) => {
     if (type === "create") {
-      categoryMutation.mutate(formData, {
+      categoryCreateMutation.mutate(formData, {
         onSuccess: () => {
           refetch();
+          cancel();
+        },
+      });
+    } else {
+      const data = { ...formData, id: selectedRecord.id };
+      categoryUpdateMutation.mutate(data, {
+        onSuccess: () => {
+          refetch();
+          cancel();
         },
       });
     }
@@ -42,7 +55,7 @@ const CategoryManipulationModal = ({
     >
       <Form
         form={form}
-        style={{ maxWidth: 600 }}
+        style={{ minWidth: 300 }}
         layout={"vertical"}
         onFinish={handleSubmit}
       >
@@ -55,11 +68,12 @@ const CategoryManipulationModal = ({
             className={"required"}
             placeholder="Tên danh mục"
             allowClear
+            defaultValue={selectedRecord ? selectedRecord.name : null}
           />
         </Form.Item>
         <Form.Item>
           <GlobalBtn type="primary" htmlType={"submit"}>
-            Submit
+            {type === "create" ? "Đăng ký" : "Cập nhật"}
           </GlobalBtn>
         </Form.Item>
       </Form>

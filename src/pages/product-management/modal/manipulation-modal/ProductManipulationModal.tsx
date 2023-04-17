@@ -54,7 +54,7 @@ const ProductManipulationModal = ({
     img3: type === "edit" && selectedRecord?.img3 ? selectedRecord?.img3 : "",
     img4: type === "edit" && selectedRecord?.img4 ? selectedRecord?.img4 : "",
   };
-  console.log(type, defaultFormValue);
+  // console.log(type, defaultFormValue);
   const {
     register,
     handleSubmit,

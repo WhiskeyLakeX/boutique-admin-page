@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import router from "./routes";
-import { store, persistor } from "../src/redux/store";
+import { persistor, store } from "../src/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { handleNoValidAccessToken } from "./module/utils/Notification";
@@ -25,7 +25,6 @@ function App() {
       }
     };
   }, []);
-
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {

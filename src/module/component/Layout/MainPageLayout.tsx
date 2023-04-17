@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import {
   LogoutOutlined,
   MenuFoldOutlined,
@@ -13,9 +13,13 @@ import { handleSuccess } from "../../utils/Notification";
 import { PATHNAME } from "../../../config";
 
 import Sidebar from "./Sidebar/Sidebar";
+import GlobalBreadcrumb from "./Breadcrumb/GlobalBreadcrumb";
 
 interface IDashboardLayoutProps {
   children?: React.ReactNode;
+}
+interface breadcrumbItem {
+  title: string;
 }
 
 const { Header, Sider, Content } = Layout;
@@ -23,6 +27,7 @@ const { Header, Sider, Content } = Layout;
 const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const [username, setUsername] = useState<string>("");
+  const [breadcrumbItems, setBreadcrumbItems] = useState<breadcrumbItem[]>();
   const selector = useSelector((state) => state);
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -33,6 +38,15 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
     }, 500);
   };
   // console.log("Layout rerender");
+  const getListOfBreadcrumbItem = (listOfBreadcrumb: string[]) => {
+    const refinedList = listOfBreadcrumb.map((value, index, array) => {
+      return {
+        title: value,
+      };
+    });
+    console.log("ob", refinedList);
+    setBreadcrumbItems(refinedList);
+  };
 
   useEffect(() => {
     //@ts-ignored
@@ -67,21 +81,26 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
           </div>
           {collapsed || <div className="username t-h5 t-bold">{username}</div>}
         </div>
-        <Sidebar />
+        <Sidebar getListOfBreadcrumbItem={getListOfBreadcrumbItem} />
       </Sider>
       <Layout className="site-layout">
         <Header className="antd-header">
-          <div
-            onClick={() => setCollapsed(!collapsed)}
-            role="button"
-            className="trigger toggle-btn"
-          >
-            {collapsed ? (
-              <MenuUnfoldOutlined size={15} />
-            ) : (
-              <MenuFoldOutlined size={15} />
-            )}
+          <div className={"left-wrapper"}>
+            <div
+              onClick={() => setCollapsed(!collapsed)}
+              role="button"
+              className="trigger toggle-btn"
+            >
+              {collapsed ? (
+                <MenuUnfoldOutlined size={15} />
+              ) : (
+                <MenuFoldOutlined size={15} />
+              )}
+            </div>
+            {/*// @ts-ignore */}
+            <GlobalBreadcrumb items={breadcrumbItems} />
           </div>
+
           <div className="log-out-btn" role={"button"} onClick={handleLogout}>
             <div className="log-out-text">Đăng xuất</div>
             <LogoutOutlined
@@ -98,4 +117,4 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
   );
 };
 
-export default MainPageLayout;
+export default memo(MainPageLayout);

@@ -1,8 +1,7 @@
 import RouteList from "./RouteList";
+import routes, { IRoute } from "./RouteList";
 import { createBrowserRouter } from "react-router-dom";
 import LayoutProvider from "../module/utils/LayoutProvider";
-import routes from "./RouteList";
-import { IRoute } from "./RouteList";
 
 const loopLayout = (children: IRoute[]): void => {
   children.forEach((child, index) => {
