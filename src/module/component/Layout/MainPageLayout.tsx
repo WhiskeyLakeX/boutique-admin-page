@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   LogoutOutlined,
   MenuFoldOutlined,
@@ -13,7 +13,8 @@ import { handleSuccess } from "../../utils/Notification";
 import { PATHNAME } from "../../../config";
 
 import Sidebar from "./Sidebar/Sidebar";
-import GlobalBreadcrumb from "./Breadcrumb/GlobalBreadcrumb";
+import { handleConvertArrToPath } from "../../utils/ConvertArrToPath";
+import { useNavigate } from "react-router-dom";
 
 interface IDashboardLayoutProps {
   children?: React.ReactNode;
@@ -27,9 +28,10 @@ const { Header, Sider, Content } = Layout;
 const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const [username, setUsername] = useState<string>("");
-  const [breadcrumbItems, setBreadcrumbItems] = useState<breadcrumbItem[]>();
+  // const [breadcrumbItems, setBreadcrumbItems] = useState<breadcrumbItem[]>();
   const selector = useSelector((state) => state);
   const dispatch = useDispatch();
+  const navigator = useNavigate();
   const handleLogout = () => {
     dispatch(UserAction.userLogout());
     handleSuccess("logout");
@@ -37,16 +39,19 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
       window.location.href = PATHNAME.LOGIN;
     }, 500);
   };
-  // console.log("Layout rerender");
-  const getListOfBreadcrumbItem = (listOfBreadcrumb: string[]) => {
-    const refinedList = listOfBreadcrumb.map((value, index, array) => {
-      return {
-        title: value,
-      };
-    });
-    console.log("ob", refinedList);
-    setBreadcrumbItems(refinedList);
-  };
+
+  const handleRouterChange = useCallback(
+    ({ item, key, keyPath }: { item: any; key: string; keyPath: string[] }) => {
+      console.log(item);
+      if (key === "logout") {
+        handleLogout();
+        return;
+      }
+
+      navigator(handleConvertArrToPath(keyPath), { replace: true });
+    },
+    [navigator]
+  );
 
   useEffect(() => {
     //@ts-ignored
@@ -81,7 +86,7 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
           </div>
           {collapsed || <div className="username t-h5 t-bold">{username}</div>}
         </div>
-        <Sidebar getListOfBreadcrumbItem={getListOfBreadcrumbItem} />
+        <Sidebar handleRouterChange={handleRouterChange} />
       </Sider>
       <Layout className="site-layout">
         <Header className="antd-header">
@@ -98,7 +103,7 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
               )}
             </div>
             {/*// @ts-ignore */}
-            <GlobalBreadcrumb items={breadcrumbItems} />
+            {/*<GlobalBreadcrumb items={breadcrumbItems} />*/}
           </div>
 
           <div className="log-out-btn" role={"button"} onClick={handleLogout}>
@@ -117,4 +122,4 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
   );
 };
 
-export default memo(MainPageLayout);
+export default MainPageLayout;

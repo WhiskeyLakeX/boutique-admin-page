@@ -15,9 +15,14 @@ const PRODUCT_MANAGEMENT = {
 
 const CATEGORY_MANAGEMENT = {
   GET_LIST_CATEGORY: "get_list_category",
+  GET_CATEGORY_BY_ID: "get_category_by_id",
 };
 const ORDER_MANAGEMENT = {
   GET_LIST_ORDER: "get_list_order",
+};
+
+const BRAND_MANAGEMENT = {
+  GET_LIST_BRAND: "get_list_brand",
 };
 
 export {
@@ -26,4 +31,5 @@ export {
   PRODUCT_MANAGEMENT,
   CATEGORY_MANAGEMENT,
   ORDER_MANAGEMENT,
+  BRAND_MANAGEMENT,
 };

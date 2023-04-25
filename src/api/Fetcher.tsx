@@ -2,10 +2,10 @@ import axios, { AxiosRequestConfig } from "axios";
 import { NETWORK_CONFIG, PATHNAME } from "../config";
 import { store } from "../redux/store";
 import {
-  handleErrorGeneral,
-  handleSuccess,
-  handleNoValidAccessToken,
   handleErrorDataRequest,
+  handleErrorGeneral,
+  handleNoValidAccessToken,
+  handleSuccess,
 } from "../module/utils/Notification";
 import { checkIfNoAccessTokenNeeded } from "../module/utils/CheckIfNoAccessTokenNeeded";
 
@@ -37,7 +37,7 @@ async function fetcher(config: AxiosRequestConfig, reqType?: string) {
             handleErrorDataRequest(reqType, res?.data?.status_code);
             return;
           } else {
-            handleSuccess(reqType);
+            if (reqType) handleSuccess(reqType);
             resolve(res);
           }
         })

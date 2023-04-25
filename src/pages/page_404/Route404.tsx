@@ -4,7 +4,7 @@ import "./styles.scss";
 import { useNavigate } from "react-router-dom";
 
 export default function Route404(): JSX.Element {
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(50);
   const navigate = useNavigate();
 
   useEffect(() => {

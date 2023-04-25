@@ -8,76 +8,18 @@ import { regular, solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import UserManipulationModal from "./modal/UserManipulationModal";
 import dayjs from "dayjs";
 import { DeleteModal } from "../../module/component/Modal";
-const UserManagement = () => {
-  const listOfUser = [
-    {
-      id: 12313,
-      name: "Son",
-      username: "son.ndc",
-      age: "18",
-      dateOfBirth: "2023-09-25",
-      email: "son.ndc@yas.com.vn",
-      address: "Phuc Tien District, Binh Yen",
-      numOrder: 9,
-      key: 1,
-    },
-    {
-      id: 123213,
-      name: "Son1",
-      username: "son.ndc",
-      age: "18",
-      dateOfBirth: "28-09-2023",
-      email: "son.ndc@yas.com.vn",
-      address: "Phuc Tien District, Binh Yen",
-      numOrder: 9,
-      key: 2,
-    },
-    {
-      id: 123813,
-      name: "Son2",
-      username: "son.ndc",
-      age: "18",
-      dateOfBirth: "2023-09-25",
-      email: "son.ndc@yas.com.vn",
-      address: "Phuc Tien District, Binh Yen",
-      numOrder: 9,
-      key: 3,
-    },
-    {
-      id: 1253213,
-      name: "Son",
-      username: "son.ndc",
-      age: "18",
-      dateOfBirth: "2023-09-25",
-      email: "son.ndc@yas.com.vn",
-      address: "Phuc Tien District, Binh Yen",
-      numOrder: 9,
-      key: 4,
-    },
-    {
-      id: 113213,
-      name: "Son",
-      username: "son.ndc",
-      age: "18",
-      dateOfBirth: "2023-09-25",
-      email: "son.ndc@yas.com.vn",
-      address: "Phuc Tien District, Binh Yen",
-      numOrder: 9,
-      key: 5,
-    },
-    {
-      id: 1232213,
-      name: "Son",
-      username: "son.ndc",
-      age: "18",
-      dateOfBirth: "2023-09-25",
-      email: "son.ndc@yas.com.vn",
-      address: "Phuc Tien District, Binh Yen",
-      numOrder: 9,
-      key: 6,
-    },
-  ];
+import { useQuery } from "react-query";
+import { USER_MANAGEMENT } from "../../api/KeyQuery";
+import { getAllUser } from "../../api/collection/UserManagement";
 
+const UserManagement = () => {
+  const {
+    data: listOfUser,
+    isLoading,
+    refetch,
+  } = useQuery(USER_MANAGEMENT.GET_LIST_USER, getAllUser);
+
+  console.log(listOfUser);
   const [userManipulationModalProps, setUserManipulationModalProps] = useState({
     type: "",
     isOpen: false,
@@ -224,11 +166,12 @@ const UserManagement = () => {
       <Table
         className="management-table mt-12"
         columns={UserTableColumn}
-        dataSource={listOfUser}
-        // expandable={{
-        //   expandedRowRender: (text, record, index) => <ProductTable />,
-        // }}
+        //@ts-ignore
+        dataSource={listOfUser?.data?.data.map((item) => {
+          return { ...item, key: item.id };
+        })}
         rowSelection={rowSelection}
+        loading={isLoading}
       />
       <UserManipulationModal
         isOpen={userManipulationModalProps.isOpen}

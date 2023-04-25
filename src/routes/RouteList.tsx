@@ -4,6 +4,8 @@ import Login from "../pages/common/login/Login";
 import ProductManagement from "../pages/product-management";
 import Dashboard from "../pages/dashboard";
 import CategoryManagement from "../pages/category-management";
+import BrandManagement from "../pages/brand-management";
+import UserManagement from "../pages/user-management";
 
 export interface IRoute extends Object {
   path: string;
@@ -33,7 +35,7 @@ const routes: IRoute[] = [
         name: "Tài khoản khách hàng",
         path: "customer-account",
         isSideBar: true,
-        element: <ProductManagement />,
+        element: <UserManagement />,
       },
       {
         name: "Khách hàng thân thiết",
@@ -66,6 +68,12 @@ const routes: IRoute[] = [
     name: "Quản lý danh mục",
     isSideBar: true,
     element: <CategoryManagement />,
+  },
+  {
+    path: "brand-management",
+    name: "Quản lý thương hiệu",
+    isSideBar: true,
+    element: <BrandManagement />,
   },
   {
     path: "warehouse-management",

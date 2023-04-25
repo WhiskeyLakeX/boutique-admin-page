@@ -3,9 +3,10 @@ import { ICategory } from "../../interface/category-management/CategoryInterface
 
 const endpoint = {
   getAllCategory: "/categories",
-  updateCategory: "/category/update",
+  updateCategory: "/categories/update",
   deleteCategory: "/categories/delete",
   createCategory: "/categories/create",
+  getById: "/categories",
 };
 export function getAllCategory() {
   return fetcher({
@@ -26,14 +27,20 @@ export function createCategory(data: ICategory) {
 }
 
 export function updateCategory(data: ICategory) {
-  // console.log(data);
   return fetcher(
     {
       method: "PUT",
-      url: endpoint.updateCategory,
+      url: `${endpoint.updateCategory}/${data.id}`,
       data: data,
-      params: data.id,
     },
     "edit"
   );
+}
+
+export function getCategoryById(data: number) {
+  return fetcher({
+    method: "GET",
+    url: `${endpoint.getById}/${data}`,
+    params: data,
+  });
 }

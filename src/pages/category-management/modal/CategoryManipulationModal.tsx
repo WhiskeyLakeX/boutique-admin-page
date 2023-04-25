@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IManipulationModal } from "../../../interface/modal/ManipulationModalInterface";
 import { GlobalModal } from "../../../module/component/Modal";
-import { Form } from "antd";
+import { Form, FormInstance } from "antd";
 import { GlobalInput } from "../../../module/component/InputField/GlobalAnt-InputField/GlobalInput";
 import GlobalBtn from "../../../module/component/Button/GlobalAnt-Btn/GlobalBtn";
 import { requiredMessage } from "../../../module/utils/ValidationMesssage";
@@ -21,6 +21,7 @@ const CategoryManipulationModal = ({
   refetch,
 }: IManipulationModal) => {
   const [form] = Form.useForm();
+  const formRef = React.useRef<FormInstance>(null);
   const categoryCreateMutation = useMutation(createCategory);
   const categoryUpdateMutation = useMutation(updateCategory);
   const handleSubmit = (formData: ICategory) => {
@@ -32,15 +33,23 @@ const CategoryManipulationModal = ({
         },
       });
     } else {
-      const data = { ...formData, id: selectedRecord.id };
-      categoryUpdateMutation.mutate(data, {
-        onSuccess: () => {
-          refetch();
-          cancel();
-        },
-      });
+      categoryUpdateMutation.mutate(
+        { ...formData, id: selectedRecord.id },
+        {
+          onSuccess: () => {
+            refetch();
+            cancel();
+          },
+        }
+      );
     }
   };
+  useEffect(() => {
+    return () => {
+      formRef.current?.resetFields();
+    };
+  }, [type]);
+
   return (
     <GlobalModal
       title={
@@ -51,13 +60,13 @@ const CategoryManipulationModal = ({
       confirmLoading={true}
       footer={null}
       width={"fit-content"}
-      destroyOnClose={true}
     >
       <Form
         form={form}
         style={{ minWidth: 300 }}
         layout={"vertical"}
         onFinish={handleSubmit}
+        ref={formRef}
       >
         <Form.Item
           name={"name"}
@@ -68,7 +77,7 @@ const CategoryManipulationModal = ({
             className={"required"}
             placeholder="Tên danh mục"
             allowClear
-            defaultValue={selectedRecord ? selectedRecord.name : null}
+            defaultValue={type === "edit" ? selectedRecord.name : null}
           />
         </Form.Item>
         <Form.Item>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // @ts-ignore
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 // @ts-ignore
@@ -37,34 +37,25 @@ const ProductManipulationModal = ({
   cancel,
   refetch,
 }: IModalManipulation) => {
-  const defaultFormValue = {
-    name: type === "edit" && selectedRecord?.name ? selectedRecord?.name : "",
-    price: type === "edit" && selectedRecord?.price ? selectedRecord?.price : 0,
-    category_id: null,
-    short_description:
-      type === "edit" && selectedRecord?.short_description
-        ? selectedRecord?.short_description
-        : "",
-    long_description:
-      type === "edit" && selectedRecord?.long_description
-        ? selectedRecord?.long_description
-        : "",
-    img1: type === "edit" && selectedRecord?.img1 ? selectedRecord?.img1 : "",
-    img2: type === "edit" && selectedRecord?.img2 ? selectedRecord?.img2 : "",
-    img3: type === "edit" && selectedRecord?.img3 ? selectedRecord?.img3 : "",
-    img4: type === "edit" && selectedRecord?.img4 ? selectedRecord?.img4 : "",
+  const defaultValues = {
+    name: "",
+    price: 0,
+    category_id: 0,
+    short_description: "",
+    long_description: "",
+    img1: "",
+    img2: "",
+    img3: "",
+    img4: "",
   };
-  // console.log(type, defaultFormValue);
   const {
-    register,
     handleSubmit,
     control,
-    getValues,
     setValue,
     formState: { errors },
     reset,
   } = useForm({
-    defaultValues: defaultFormValue,
+    defaultValues: defaultValues,
   });
   const {
     data: listOfCategory,
@@ -76,12 +67,33 @@ const ProductManipulationModal = ({
     createProduct
   );
   const onSubmitForm = (data: any) => {
-    productMutation.mutate(data, {
-      onSuccess: () => {
-        refetch();
-      },
-    });
+    if (type === "create") {
+      productMutation.mutate(data, {
+        onSuccess: () => {
+          refetch();
+          cancel();
+        },
+      });
+    }
   };
+
+  useEffect(() => {
+    if (type === "edit" && selectedRecord) {
+      reset({
+        name: selectedRecord?.name,
+        price: selectedRecord?.price,
+        category_id: selectedRecord?.category?.id,
+        short_description: selectedRecord?.short_description,
+        long_description: selectedRecord?.long_description,
+        img1: selectedRecord?.img1,
+        img2: selectedRecord?.img2,
+        img3: selectedRecord?.img3,
+        img4: selectedRecord?.img4,
+      });
+    } else {
+      reset({ ...defaultValues, category_id: undefined });
+    }
+  }, [type]);
 
   return (
     <Modal
@@ -272,9 +284,9 @@ const ProductManipulationModal = ({
                     config={{
                       placeholder: "Nhập mô tả chi tiết",
                     }}
-                    data={
-                      type === "edit" ? selectedRecord?.long_description : ""
-                    }
+                    // data={
+                    //   type === "edit" ? selectedRecord?.long_description : ""
+                    // }
                     onChange={(event: any, editor: { getData: () => any }) => {
                       setValue("long_description", editor.getData());
                     }}
@@ -293,23 +305,13 @@ const ProductManipulationModal = ({
           <Button
             htmlType="button"
             onClick={() => {
-              reset({
-                name: "",
-                price: 0,
-                category_id: null,
-                short_description: "",
-                long_description: "",
-                img1: "",
-                img2: "",
-                img3: "",
-                img4: "",
-              });
+              reset(defaultValues);
             }}
           >
             Reset
           </Button>
           <Button type="primary" htmlType="submit">
-            Submit
+            {type === "edit" ? "Cập nhật" : "Đăng ký"}
           </Button>
         </div>
       </form>

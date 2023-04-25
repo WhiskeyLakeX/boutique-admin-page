@@ -19,6 +19,7 @@ import {
   DetailedInfoActionBtn,
   EditActionBtn,
 } from "../../module/component/Button/ActionBtn/ActionButton";
+import { ICategory } from "../../interface/category-management/CategoryInterface";
 
 const ProductManagement = () => {
   const [productManipulationModalProps, setProductManipulationModalProps] =
@@ -110,8 +111,10 @@ const ProductManagement = () => {
     },
     {
       title: "Danh mục",
-      dataIndex: "category_id",
       key: "category",
+      render: (text: string, record: ICategory, index: number) => {
+        return record.name;
+      },
       width: 100,
     },
     {
@@ -211,7 +214,7 @@ const ProductManagement = () => {
         })}
         rowSelection={rowSelection}
         loading={isProductLoading}
-        scroll={{ x: 400 }}
+        scroll={{ y: 500 }}
       />
       <ProductManipulationModal
         refetch={refetchProduct}

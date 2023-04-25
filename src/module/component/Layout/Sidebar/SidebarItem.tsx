@@ -91,6 +91,11 @@ const SidebarItem = (): MenuItem[] => {
           <FontAwesomeIcon icon={solid("list-ul")} />
         ),
         getItem(
+          "Quản lý thương hiệu",
+          "brand-management",
+          <FontAwesomeIcon icon={solid("copyright")} />
+        ),
+        getItem(
           "Quản lý kho",
           "warehouse-management",
           <FontAwesomeIcon icon={solid("boxes-packing")} />
@@ -109,13 +114,13 @@ const SidebarItem = (): MenuItem[] => {
           "change-language",
           <FontAwesomeIcon icon={solid("earth-americas")} />
         ),
-        getItem(
-          "Cơ sở dữ liệu",
-          "access-database",
-          <FontAwesomeIcon icon={solid("database")} />,
-          undefined,
-          undefined
-        ),
+        // getItem(
+        //   "Cơ sở dữ liệu",
+        //   "access-database",
+        //   <FontAwesomeIcon icon={solid("database")} />,
+        //   undefined,
+        //   undefined
+        // ),
       ],
       "group"
     ),

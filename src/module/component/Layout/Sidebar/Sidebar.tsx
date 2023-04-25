@@ -1,42 +1,22 @@
-import React from "react";
+import React, { memo } from "react";
 import SidebarItem from "./SidebarItem";
-import { handleConvertArrToPath } from "../../../utils/ConvertArrToPath";
 import { Menu } from "antd";
-import { useNavigate } from "react-router-dom";
-import UserAction from "../../../../redux/actions/UserAction";
-import { handleSuccess } from "../../../utils/Notification";
-import { PATHNAME } from "../../../../config";
-import { useDispatch } from "react-redux";
 
 interface ISidebar {
-  getListOfBreadcrumbItem: (params: string[]) => void;
+  // getListOfBreadcrumbItem: (params: string[]) => void;
+  handleRouterChange: ({ item, key, keyPath }: any) => void;
 }
 
-const Sidebar = ({ getListOfBreadcrumbItem }: ISidebar) => {
-  const navigator = useNavigate();
-  const dispatch = useDispatch();
-  const handleLogout = () => {
-    dispatch(UserAction.userLogout());
-    handleSuccess("logout");
-    setTimeout(() => {
-      window.location.href = PATHNAME.LOGIN;
-    }, 500);
-  };
-
+const Sidebar = ({ handleRouterChange }: ISidebar) => {
   return (
     <Menu
       theme="dark"
       mode="inline"
       defaultSelectedKeys={["1"]}
       items={SidebarItem()}
-      onSelect={({ item, key, keyPath }) => {
-        if (key === "logout") {
-          handleLogout();
-          return;
-        }
-        getListOfBreadcrumbItem(keyPath);
-        navigator(handleConvertArrToPath(keyPath));
-      }}
+      onSelect={({ item, key, keyPath }) =>
+        handleRouterChange({ item, key, keyPath })
+      }
       triggerSubMenuAction={"hover"}
       style={{
         overflowY: "auto",
@@ -45,4 +25,4 @@ const Sidebar = ({ getListOfBreadcrumbItem }: ISidebar) => {
   );
 };
 
-export default Sidebar;
+export default memo(Sidebar);

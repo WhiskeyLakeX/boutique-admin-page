@@ -13,6 +13,6 @@ export function requestTypeToNotification(reqType?: string) {
     case "logout":
       return "Đăng xuất";
     default:
-      return "Tải danh sách";
+      return "Tải danh sách bản ghi";
   }
 }

@@ -1,5 +1,5 @@
 import { fetcher } from "../Fetcher";
-import IAdminAccount from "../../interface/user-management/UserInterface";
+import { IAdminAccount } from "../../interface/user-management/IUser";
 
 const url = {
   login: "/user-auth/authenticate",

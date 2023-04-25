@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { Table, Tooltip } from "antd";
 import { useQuery } from "react-query";
-import { CATEGORY_MANAGEMENT } from "../../api/KeyQuery";
-import { getAllCategory } from "../../api/collection/CategoryManagement_API";
 import { EditActionBtn } from "../../module/component/Button/ActionBtn/ActionButton";
 import { GlobalInputSearch } from "../../module/component/InputField/GlobalAnt-InputField/GlobalInput";
 import GlobalBtn from "../../module/component/Button/GlobalAnt-Btn/GlobalBtn";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { regular, solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { ICategory } from "../../interface/category-management/CategoryInterface";
-import CategoryManipulationModal from "./modal/CategoryManipulationModal";
 import { DeleteModal } from "../../module/component/Modal";
+import { BRAND_MANAGEMENT } from "../../api/KeyQuery";
+import { IBrand } from "../../interface/brand-management/IBrand";
+import { getAllBrand } from "../../api/collection/BrandManagement_API";
 
 const CategoryManagement = () => {
   const [manipulationModalProps, setManipulationModalProps] = useState({
@@ -29,12 +28,12 @@ const CategoryManagement = () => {
     setIsOpenDeleteModal(!isOpenDeleteModal);
   };
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [selectedRecord, setSelectedRecord] = useState<ICategory>();
+  const [selectedRecord, setSelectedRecord] = useState<IBrand>();
   const {
     data: listOfCategory,
     isLoading,
     refetch,
-  } = useQuery(CATEGORY_MANAGEMENT.GET_LIST_CATEGORY, getAllCategory);
+  } = useQuery(BRAND_MANAGEMENT.GET_LIST_BRAND, getAllBrand);
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
@@ -60,8 +59,8 @@ const CategoryManagement = () => {
       width: 70,
     },
     {
-      title: "Tên danh mục",
-      dataIndex: "name",
+      title: "Tên thương hiệu",
+      dataIndex: "",
       key: "name",
       width: 200,
     },
@@ -76,7 +75,7 @@ const CategoryManagement = () => {
       dataIndex: "action",
       key: "action",
       fixed: true,
-      render: (text: string, record: ICategory, index: number) => {
+      render: (text: string, record: IBrand, index: number) => {
         return (
           <div className={"list-btn"}>
             <EditActionBtn
@@ -127,13 +126,13 @@ const CategoryManagement = () => {
         rowSelection={rowSelection}
         loading={isLoading}
       />
-      <CategoryManipulationModal
-        isOpen={manipulationModalProps.isOpen}
-        type={manipulationModalProps.type}
-        cancel={handleToggleManipulationModal}
-        refetch={refetch}
-        selectedRecord={selectedRecord}
-      />
+      {/*<CategoryManipulationModal*/}
+      {/*  isOpen={manipulationModalProps.isOpen}*/}
+      {/*  type={manipulationModalProps.type}*/}
+      {/*  cancel={handleToggleManipulationModal}*/}
+      {/*  refetch={refetch}*/}
+      {/*  selectedRecord={selectedRecord}*/}
+      {/*/>*/}
       <DeleteModal
         isOpen={isOpenDeleteModal}
         onOk={() => {
