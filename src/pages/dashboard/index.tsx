@@ -70,6 +70,10 @@ const Dashboard = () => {
         { key: "ee2", title: "0-4" },
       ],
     },
+    {
+      key: "e1",
+      title: "0-1-0",
+    },
   ];
   const [targetKeys, setTargetKeys] = useState<string[]>([]);
   const treeNode: DataNode[] = [];
@@ -86,10 +90,9 @@ const Dashboard = () => {
       (value: string | number, index: number, array: (string | number)[]) => {
         treeNode.forEach((valueNode, indexNode, arrayNode) => {
           if (value === valueNode.key) {
-            console.log("kk");
             if (valueNode.isLeaf === true) {
               leafKey.push(valueNode.key);
-            } else if (valueNode?.isLeaf && valueNode.isLeaf === false) {
+            } else if (valueNode.isLeaf === false) {
               leafKey.push(
                 ...findLeaf(convertToKeyArray(valueNode.children as DataNode[]))
               );
@@ -105,8 +108,7 @@ const Dashboard = () => {
     const keySelected: string[] = result.map((value, index, array) => {
       return value.toString();
     });
-
-    setTargetKeys(keySelected);
+    setTargetKeys([...keySelected, "a"]);
   };
 
   // Customize Table Transfer
@@ -130,7 +132,7 @@ const Dashboard = () => {
       return {
         ...props,
         isLeaf: isLeaf,
-        disabled: checkedKeys.includes(props.key as string),
+        disabled: targetKeys.includes(props.key as string),
         children: generateTree(children, checkedKeys),
       };
     });
@@ -173,12 +175,6 @@ const Dashboard = () => {
                   checkedKeys={checkedKeys}
                   treeData={generateTree(dataSource, targetKeys)}
                   onCheck={function (selectedKeys, info) {
-                    // onItemSelect(
-                    //   info.node.key as string,
-                    //   info.node.isLeaf
-                    //     ? !isChecked(checkedKeys, info.node.key)
-                    //     : isChecked(checkedKeys, info.node.key)
-                    // );
                     onItemSelect(
                       info.node.key as string,
                       !isChecked(checkedKeys, info.node.key)
@@ -187,9 +183,7 @@ const Dashboard = () => {
                   onSelect={function (selectedKeys, info) {
                     onItemSelect(
                       info.node.key as string,
-                      info.node.isLeaf
-                        ? !isChecked(checkedKeys, info.node.key)
-                        : isChecked(checkedKeys, info.node.key)
+                      !isChecked(checkedKeys, info.node.key)
                     );
                   }}
                   checkable

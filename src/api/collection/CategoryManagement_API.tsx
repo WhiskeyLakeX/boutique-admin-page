@@ -44,3 +44,10 @@ export function getCategoryById(data: number) {
     params: data,
   });
 }
+
+export function deleteCategory(data: number[]) {
+  return fetcher({
+    method: "DELETE",
+    url: endpoint.deleteCategory,
+  });
+}

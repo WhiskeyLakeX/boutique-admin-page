@@ -215,6 +215,9 @@ const ProductManagement = () => {
         rowSelection={rowSelection}
         loading={isProductLoading}
         scroll={{ y: 500 }}
+        onChange={(pagination, filters, sorter, extra) => {
+          console.log("Pagination", pagination);
+        }}
       />
       <ProductManipulationModal
         refetch={refetchProduct}

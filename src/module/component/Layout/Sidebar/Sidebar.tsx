@@ -14,9 +14,9 @@ const Sidebar = ({ handleRouterChange }: ISidebar) => {
       mode="inline"
       defaultSelectedKeys={["1"]}
       items={SidebarItem()}
-      onSelect={({ item, key, keyPath }) =>
-        handleRouterChange({ item, key, keyPath })
-      }
+      onSelect={({ item, key, keyPath }) => {
+        handleRouterChange({ item, key, keyPath });
+      }}
       triggerSubMenuAction={"hover"}
       style={{
         overflowY: "auto",

@@ -18,10 +18,10 @@ const DetailModal = ({
     <GlobalModal open={isOpen} onCancel={handleOpenDetailModal} footer={[]}>
       <div className="detail-information-wrapper">
         <div className="detail-information-txt">
-          <div>{product?.name}</div>
+          <div>Tên sản phẩm: {product?.name}</div>
         </div>
         <Row className="detail-information-img">
-          <Col span={6} offset={10}>
+          <Col span={6} offset={5}>
             <Image className={"product-img"} width={100} src={product?.img1} />
             <Image className={"product-img"} width={100} src={product?.img2} />
           </Col>

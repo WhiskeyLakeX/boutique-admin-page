@@ -6,10 +6,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Controller, useForm } from "react-hook-form";
 import "./styles.scss";
 import { useMutation, useQuery } from "react-query";
-import {
-  CATEGORY_MANAGEMENT,
-  PRODUCT_MANAGEMENT,
-} from "../../../../api/KeyQuery";
+import { CATEGORY_MANAGEMENT } from "../../../../api/KeyQuery";
 import { getAllCategory } from "../../../../api/collection/CategoryManagement_API";
 import {
   maxLengthMessage,
@@ -18,7 +15,10 @@ import {
 import { Button, Input, InputNumber, Modal, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { IProduct } from "../../../../interface/product-management/ProductInterface";
-import { createProduct } from "../../../../api/collection/ProductManagement_API";
+import {
+  createProduct,
+  updateProduct,
+} from "../../../../api/collection/ProductManagement_API";
 
 interface IModalManipulation {
   type: string;
@@ -57,18 +57,22 @@ const ProductManipulationModal = ({
   } = useForm({
     defaultValues: defaultValues,
   });
-  const {
-    data: listOfCategory,
-    isLoading: isCategoryLoading,
-    refetch: refetchCategory,
-  } = useQuery(CATEGORY_MANAGEMENT.GET_LIST_CATEGORY, getAllCategory);
-  const productMutation = useMutation(
-    PRODUCT_MANAGEMENT.CREATE_PRODUCT,
-    createProduct
+  const { data: listOfCategory } = useQuery(
+    CATEGORY_MANAGEMENT.GET_LIST_CATEGORY,
+    getAllCategory
   );
+  const productCreateMutation = useMutation(createProduct);
+  const productUpdateMutation = useMutation(updateProduct);
   const onSubmitForm = (data: any) => {
     if (type === "create") {
-      productMutation.mutate(data, {
+      productCreateMutation.mutate(data, {
+        onSuccess: () => {
+          refetch();
+          cancel();
+        },
+      });
+    } else {
+      productUpdateMutation.mutate(data, {
         onSuccess: () => {
           refetch();
           cancel();
@@ -284,9 +288,9 @@ const ProductManipulationModal = ({
                     config={{
                       placeholder: "Nhập mô tả chi tiết",
                     }}
-                    // data={
-                    //   type === "edit" ? selectedRecord?.long_description : ""
-                    // }
+                    data={
+                      type === "edit" ? selectedRecord?.long_description : ""
+                    }
                     onChange={(event: any, editor: { getData: () => any }) => {
                       setValue("long_description", editor.getData());
                     }}
@@ -310,7 +314,7 @@ const ProductManipulationModal = ({
           >
             Reset
           </Button>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" onClick={() => {}}>
             {type === "edit" ? "Cập nhật" : "Đăng ký"}
           </Button>
         </div>

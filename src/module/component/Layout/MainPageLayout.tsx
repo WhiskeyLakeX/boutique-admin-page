@@ -14,7 +14,7 @@ import { PATHNAME } from "../../../config";
 
 import Sidebar from "./Sidebar/Sidebar";
 import { handleConvertArrToPath } from "../../utils/ConvertArrToPath";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface IDashboardLayoutProps {
   children?: React.ReactNode;
@@ -32,6 +32,8 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
   const selector = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigator = useNavigate();
+  const location = useLocation();
+
   const handleLogout = () => {
     dispatch(UserAction.userLogout());
     handleSuccess("logout");
@@ -49,6 +51,7 @@ const MainPageLayout: React.FC = (props: IDashboardLayoutProps) => {
       }
 
       navigator(handleConvertArrToPath(keyPath), { replace: true });
+      // location.replace(handleConvertArrToPath(keyPath));
     },
     [navigator]
   );

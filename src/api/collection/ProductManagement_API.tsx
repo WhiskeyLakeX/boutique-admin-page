@@ -6,6 +6,7 @@ const url = {
   getAllProduct: "/products",
   createProduct: "/products/add",
   deleteProduct: "/products/delete",
+  updateProduct: "/products/update",
 };
 
 export function getAllProduct() {
@@ -20,6 +21,17 @@ export function createProduct(body: IProduct) {
       data: body,
     },
     "create"
+  );
+}
+
+export function updateProduct(body: IProduct) {
+  return fetcher(
+    {
+      url: url.updateProduct,
+      method: "POST",
+      data: body,
+    },
+    "edit"
   );
 }
 

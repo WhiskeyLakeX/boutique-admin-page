@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Table, Tooltip } from "antd";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { EditActionBtn } from "../../module/component/Button/ActionBtn/ActionButton";
 import { GlobalInputSearch } from "../../module/component/InputField/GlobalAnt-InputField/GlobalInput";
 import GlobalBtn from "../../module/component/Button/GlobalAnt-Btn/GlobalBtn";
@@ -9,7 +9,11 @@ import { regular, solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { DeleteModal } from "../../module/component/Modal";
 import { BRAND_MANAGEMENT } from "../../api/KeyQuery";
 import { IBrand } from "../../interface/brand-management/IBrand";
-import { getAllBrand } from "../../api/collection/BrandManagement_API";
+import {
+  deleteBrand,
+  getAllBrand,
+} from "../../api/collection/BrandManagement_API";
+import BrandManipulationModal from "./modal/BrandManipulationModal";
 
 const CategoryManagement = () => {
   const [manipulationModalProps, setManipulationModalProps] = useState({
@@ -23,7 +27,7 @@ const CategoryManagement = () => {
       isOpen: !manipulationModalProps.isOpen,
     });
   };
-
+  const deleteMutation = useMutation(deleteBrand);
   const handleToggleDeleteModal = () => {
     setIsOpenDeleteModal(!isOpenDeleteModal);
   };
@@ -60,7 +64,7 @@ const CategoryManagement = () => {
     },
     {
       title: "Tên thương hiệu",
-      dataIndex: "",
+      dataIndex: "name",
       key: "name",
       width: 200,
     },
@@ -126,17 +130,19 @@ const CategoryManagement = () => {
         rowSelection={rowSelection}
         loading={isLoading}
       />
-      {/*<CategoryManipulationModal*/}
-      {/*  isOpen={manipulationModalProps.isOpen}*/}
-      {/*  type={manipulationModalProps.type}*/}
-      {/*  cancel={handleToggleManipulationModal}*/}
-      {/*  refetch={refetch}*/}
-      {/*  selectedRecord={selectedRecord}*/}
-      {/*/>*/}
+      <BrandManipulationModal
+        isOpen={manipulationModalProps.isOpen}
+        type={manipulationModalProps.type}
+        cancel={handleToggleManipulationModal}
+        refetch={refetch}
+        selectedRecord={selectedRecord}
+      />
       <DeleteModal
         isOpen={isOpenDeleteModal}
         onOk={() => {
-          // console.log(selectedRowKeys);
+          deleteMutation.mutate(selectedRowKeys, {
+            onSuccess: () => refetch(),
+          });
         }}
         onCancel={handleToggleDeleteModal}
       />
