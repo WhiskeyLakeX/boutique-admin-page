@@ -36,6 +36,7 @@ export function updateProduct(body: IProduct) {
 }
 
 export function deleteProduct(body: React.Key[]) {
+  console.log(body);
   return fetcher(
     {
       url: url.deleteProduct,

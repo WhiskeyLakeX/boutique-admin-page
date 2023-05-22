@@ -15,10 +15,12 @@ export function getAllBrand() {
 }
 
 export function createBrand(body: IBrand) {
+  console.log(body)
   return fetcher(
     {
       method: "POST",
       url: endpoint.createBrand,
+      data: body
     },
     "create"
   );

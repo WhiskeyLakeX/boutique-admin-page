@@ -11,6 +11,7 @@ import {
   createCategory,
   updateCategory,
 } from "../../../api/collection/CategoryManagement_API";
+import { deleteCategory } from "../../../api/collection/CategoryManagement_API";
 
 const CategoryManipulationModal = ({
   type,
@@ -24,6 +25,7 @@ const CategoryManipulationModal = ({
   const formRef = React.useRef<FormInstance>(null);
   const categoryCreateMutation = useMutation(createCategory);
   const categoryUpdateMutation = useMutation(updateCategory);
+  const categoryDeleteMutation = useMutation(deleteCategory);
   const handleSubmit = (formData: ICategory) => {
     if (type === "create") {
       categoryCreateMutation.mutate(formData, {
@@ -32,7 +34,7 @@ const CategoryManipulationModal = ({
           cancel();
         },
       });
-    } else {
+    } else if (type === "edit") {
       categoryUpdateMutation.mutate(
         { ...formData, id: selectedRecord.id },
         {
@@ -42,6 +44,10 @@ const CategoryManipulationModal = ({
           },
         }
       );
+    } else if (type === "delete") {
+      categoryDeleteMutation.mutate(selectedRecord, {
+        onSuccess: () => refetch(),
+      });
     }
   };
   useEffect(() => {

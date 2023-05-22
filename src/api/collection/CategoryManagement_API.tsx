@@ -46,8 +46,11 @@ export function getCategoryById(data: number) {
 }
 
 export function deleteCategory(data: number[]) {
+  console.log(data);
   return fetcher({
     method: "DELETE",
     url: endpoint.deleteCategory,
-  });
+    data: data
+  },
+    "delete");
 }
