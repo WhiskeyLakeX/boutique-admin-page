@@ -45,7 +45,7 @@ export function getCategoryById(data: number) {
   });
 }
 
-export function deleteCategory(data: number[]) {
+export function deleteCategory(data:  React.Key[]) {
   console.log(data);
   return fetcher({
     method: "DELETE",

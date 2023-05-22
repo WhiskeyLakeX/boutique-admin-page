@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Table, Tooltip } from "antd";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { CATEGORY_MANAGEMENT } from "../../api/KeyQuery";
-import { getAllCategory } from "../../api/collection/CategoryManagement_API";
+import { deleteCategory, getAllCategory } from "../../api/collection/CategoryManagement_API";
 import { EditActionBtn } from "../../module/component/Button/ActionBtn/ActionButton";
 import { GlobalInputSearch } from "../../module/component/InputField/GlobalAnt-InputField/GlobalInput";
 import GlobalBtn from "../../module/component/Button/GlobalAnt-Btn/GlobalBtn";
@@ -18,6 +18,7 @@ const CategoryManagement = () => {
     isOpen: false,
   });
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const deleteMutation = useMutation(deleteCategory);
   const handleToggleManipulationModal = (type?: string) => {
     setManipulationModalProps({
       type: type ? type : "",
@@ -137,7 +138,13 @@ const CategoryManagement = () => {
       <DeleteModal
         isOpen={isOpenDeleteModal}
         onOk={() => {
-          // console.log(selectedRowKeys);
+          setIsOpenDeleteModal(false);
+          deleteMutation.mutate(selectedRowKeys, {
+            onSuccess: () => {
+
+              refetch()
+            }
+          });
         }}
         onCancel={handleToggleDeleteModal}
       />

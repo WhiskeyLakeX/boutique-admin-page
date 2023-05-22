@@ -71,10 +71,12 @@ const ProductManagement = () => {
   };
 
   const handleDeleteProduct = () => {
+    setIsOpenDeleteModal(false);
     deleteProductMutation.mutate(selectedRowKeys, {
       onSuccess: () => {
         refetchProduct();
       },
+
     });
   };
 

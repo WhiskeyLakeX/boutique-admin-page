@@ -140,6 +140,7 @@ const CategoryManagement = () => {
       <DeleteModal
         isOpen={isOpenDeleteModal}
         onOk={() => {
+          setIsOpenDeleteModal(false)
           deleteMutation.mutate(selectedRowKeys, {
             onSuccess: () => refetch(),
           });
