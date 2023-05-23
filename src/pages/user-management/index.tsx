@@ -19,13 +19,13 @@ const UserManagement = () => {
     refetch,
   } = useQuery(USER_MANAGEMENT.GET_LIST_USER, getAllUser);
 
-  console.log(listOfUser);
   const [userManipulationModalProps, setUserManipulationModalProps] = useState({
     type: "",
     isOpen: false,
   });
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [selectedRecord, setSelectedRecord] = useState();
 
   const handleOpenUserManipulationModal = (type: string) => {
     setUserManipulationModalProps({
@@ -57,16 +57,16 @@ const UserManagement = () => {
   const UserTableColumn = [
     {
       title: "No.",
-      dataIndex: "no",
-      key: "no",
+      dataIndex: "user_id",
+      key: "user_id",
       render: (text: string, record: Object, index: number) => {
         return index;
       },
     },
     {
       title: "Tên người dùng",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "fullname",
+      key: "fullname",
     },
     {
       title: "Tên tài khoản",
@@ -75,32 +75,43 @@ const UserManagement = () => {
     },
     {
       title: "Ngày sinh",
-      dataIndex: "dateOfBirth",
-      key: "dateOfBirth",
-      render: (text: string, record: Object, index: number) => {
+      dataIndex: "dob",
+      key: "dob",
+      render: (text: string) => {
         const t = dayjs();
         return (
           <Tooltip
             title={() => {
               return (
-                <>{`Tuổi: ${dayjs(text, "YYYY-MM-DD").diff(t, "year")}`}</>
+                <>{`Tuổi: ${t.diff(dayjs(text, "YYYY-MM-DD"), "year")}`}</>
               );
             }}
           >
-            {text}
+            {text ?? "-"}
           </Tooltip>
         );
       },
     },
     {
+      title: "Số điện thoại",
+      dataIndex: "phone_number",
+      key: "phone_number",
+    },
+    {
       title: "Địa chỉ Email",
       dataIndex: "email",
       key: "email",
+      render: (text: string) => {
+        return <>{text ?? "-"}</>;
+      },
     },
     {
       title: "Địa chỉ",
       dataIndex: "address",
       key: "address",
+      render: (text: string) => {
+        return <>{text ?? "-"}</>;
+      },
     },
     {
       title: "Số đơn",
@@ -113,13 +124,14 @@ const UserManagement = () => {
       dataIndex: "action",
       key: "action",
       fixed: true,
-      render: () => {
+      render: (record: React.SetStateAction<undefined>) => {
         return (
           <div className={"list-btn"}>
             <div
               className={"edit btn"}
               role={"button"}
               onClick={() => {
+                setSelectedRecord(record);
                 handleOpenUserManipulationModal("edit");
               }}
             >
@@ -168,7 +180,7 @@ const UserManagement = () => {
         columns={UserTableColumn}
         //@ts-ignore
         dataSource={listOfUser?.data?.data.map((item) => {
-          return { ...item, key: item.id };
+          return { ...item, key: item.user_id };
         })}
         rowSelection={rowSelection}
         loading={isLoading}
@@ -177,6 +189,7 @@ const UserManagement = () => {
         isOpen={userManipulationModalProps.isOpen}
         type={userManipulationModalProps.type}
         cancel={handleCancel}
+        selectedRecord={selectedRecord}
       ></UserManipulationModal>
       <DeleteModal
         isOpen={isOpenDeleteModal}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GlobalModal } from "../../../module/component/Modal";
 import { Form, FormInstance } from "antd";
 import { GlobalInput } from "../../../module/component/InputField/GlobalAnt-InputField/GlobalInput";
@@ -27,9 +27,16 @@ const UserManipulationModal = ({
 }: IUserManipulation) => {
   const [form] = Form.useForm();
   const formRef = React.useRef<FormInstance>(null);
+  const [selectedRecordReceive, setSelectedRecordReceive] =
+    useState(selectedRecord);
   const handleSubmit = (values: IAdminAccount | IUser) => {
     console.log(values);
   };
+
+  useEffect(() => {
+    setSelectedRecordReceive(selectedRecord);
+    console.log(selectedRecord);
+  }, [selectedRecord]);
 
   return (
     <GlobalModal
@@ -41,6 +48,7 @@ const UserManipulationModal = ({
       open={isOpen}
       onCancel={cancel}
       footer={null}
+      className={"modal-wrapper"}
     >
       <Form
         form={form}
@@ -60,7 +68,9 @@ const UserManipulationModal = ({
             className={"required"}
             placeholder="Tên đăng nhập"
             allowClear
-            // defaultValue={type === "edit" ? selectedRecord.name : null}
+            defaultValue={
+              type === "edit" ? selectedRecordReceive?.username : undefined
+            }
           />
         </Form.Item>
         <Form.Item
@@ -73,7 +83,6 @@ const UserManipulationModal = ({
             placeholder={type === "edit" ? "Mật khẩu mới" : "Mật khẩu"}
             allowClear
             type={"password"}
-            // defaultValue={type === "edit" ? selectedRecord.name : null}
           />
         </Form.Item>
         <Form.Item
@@ -87,7 +96,9 @@ const UserManipulationModal = ({
             className={"required"}
             placeholder={"Tên người dùng"}
             allowClear
-            // defaultValue={type === "edit" ? selectedRecord.name : null}
+            defaultValue={
+              type === "edit" ? selectedRecordReceive?.fullname : undefined
+            }
           />
         </Form.Item>
         <Form.Item
@@ -98,7 +109,9 @@ const UserManipulationModal = ({
           <GlobalDatepicker
             placeholder={"Ngày sinh"}
             allowClear
-            // defaultValue={type === "edit" ? selectedRecord.name : null}
+            defaultValue={
+              type === "edit" ? selectedRecordReceive?.dob : undefined
+            }
           />
         </Form.Item>
         <Form.Item
@@ -113,7 +126,9 @@ const UserManipulationModal = ({
             placeholder={"Số điện thoại"}
             allowClear
             type={"number"}
-            // defaultValue={type === "edit" ? selectedRecord.name : null}
+            defaultValue={
+              type === "edit" ? selectedRecordReceive?.phone_number : undefined
+            }
           />
         </Form.Item>
         <Form.Item
@@ -125,7 +140,9 @@ const UserManipulationModal = ({
             className={"required"}
             placeholder={"Địa chỉ"}
             allowClear
-            // defaultValue={type === "edit" ? selectedRecord.name : null}
+            defaultValue={
+              type === "edit" ? selectedRecordReceive?.address : undefined
+            }
           />
         </Form.Item>
         <Form.Item
@@ -137,7 +154,9 @@ const UserManipulationModal = ({
             className={"required"}
             placeholder={"Email"}
             allowClear
-            // defaultValue={type === "edit" ? selectedRecord.name : null}
+            defaultValue={
+              type === "edit" ? selectedRecordReceive?.email : undefined
+            }
           />
         </Form.Item>
         <Form.Item
@@ -146,7 +165,7 @@ const UserManipulationModal = ({
           rules={[{ required: true, message: requiredMessage("giới tính") }]}
         >
           <GlobalSelect
-            defaultValue={0}
+            defaultValue={selectedRecordReceive?.gender ?? 0}
             id="gender"
             size={"large"}
             options={[

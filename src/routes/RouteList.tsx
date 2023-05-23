@@ -6,6 +6,7 @@ import Dashboard from "../pages/dashboard";
 import CategoryManagement from "../pages/category-management";
 import BrandManagement from "../pages/brand-management";
 import UserManagement from "../pages/user-management";
+import OrderManagement from "../pages/order-management";
 
 export interface IRoute extends Object {
   path: string;
@@ -55,7 +56,7 @@ const routes: IRoute[] = [
     path: "order-management",
     name: "Quản lý đơn hàng",
     isSideBar: true,
-    element: <Route404 />,
+    element: <OrderManagement />,
   },
   {
     path: "product-management",

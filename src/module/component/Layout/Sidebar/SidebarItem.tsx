@@ -22,12 +22,12 @@ function getItem(
 }
 const SidebarItem = (): MenuItem[] => {
   return [
-    getItem(
-      "Thông tin hệ thống",
-      "dashboard",
-      <FontAwesomeIcon icon={solid("infinity")} />
-    ),
-    { type: "divider" },
+    // getItem(
+    //   "Thông tin hệ thống",
+    //   "dashboard",
+    //   <FontAwesomeIcon icon={solid("infinity")} />
+    // ),
+    // { type: "divider" },
     getItem(
       "Chung",
       "common",
@@ -109,11 +109,11 @@ const SidebarItem = (): MenuItem[] => {
       "other",
       null,
       [
-        getItem(
-          "Đổi ngôn ngữ",
-          "change-language",
-          <FontAwesomeIcon icon={solid("earth-americas")} />
-        ),
+        // getItem(
+        //   "Đổi ngôn ngữ",
+        //   "change-language",
+        //   <FontAwesomeIcon icon={solid("earth-americas")} />
+        // ),
         // getItem(
         //   "Cơ sở dữ liệu",
         //   "access-database",
