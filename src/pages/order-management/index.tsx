@@ -22,6 +22,7 @@ const OrderManagement = () => {
   const [arrStatus, setArrStatus] = useState<
     { cart_id: number; cart_status: boolean }[]
   >([]);
+  const [idLoadingStatus, setIdLoadingStatus] = useState<number>();
   const listOfOrder = useQuery(ORDER_MANAGEMENT.GET_LIST_ORDER, getAllOrder);
   const handleToggleDetailModal = (
     cart_id: number,
@@ -41,6 +42,7 @@ const OrderManagement = () => {
     id: number
   ): void => {
     const arrStatusTmp = arrStatus;
+    setIdLoadingStatus(id);
     orderStatusMutation.mutate(
       {
         cart_id: id,
@@ -158,7 +160,7 @@ const OrderManagement = () => {
       dataIndex: "cart_status",
       key: "cart_status",
       width: 100,
-      render: (text: number, record: any, index: any) => {
+      render: (text: number) => {
         return text === 1 ? "Chưa duyệt" : "Đã duyệt";
       },
     },
@@ -176,17 +178,31 @@ const OrderManagement = () => {
       dataIndex: "action",
       key: "action",
       fixed: true,
-      render: (text: any, record: { cart_id: number }, index: any) => {
+      render: (
+        text: any,
+        record: { cart_id: number; cart_status: number },
+        index: any
+      ) => {
         return (
-          <Tooltip title={"Cập nhật trạng thái đơn hàng"}>
+          <Tooltip
+            title={
+              record.cart_status === 1
+                ? "Cập nhật trạng thái đơn hàng"
+                : "Đơn hàng đã được phê duyệt"
+            }
+          >
             <Switch
+              disabled={record.cart_status === 2}
               checkedChildren={<CheckOutlined />}
               unCheckedChildren={<CloseOutlined />}
               checked={arrStatus[index]?.cart_status}
               onChange={(checked): void =>
                 handleChangeStatus(checked, index, record.cart_id)
               }
-              loading={orderStatusMutation.isLoading}
+              loading={
+                orderStatusMutation.isLoading &&
+                idLoadingStatus === record.cart_id
+              }
             />
           </Tooltip>
         );
@@ -194,6 +210,7 @@ const OrderManagement = () => {
       width: 120,
     },
   ];
+  console.log("Loading", orderStatusMutation.error);
   return (
     <div className="management-antd-table-container">
       <div className="utils-bar">
