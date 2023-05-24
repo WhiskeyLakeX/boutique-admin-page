@@ -23,6 +23,7 @@ const ORDER_MANAGEMENT = {
 
 const BRAND_MANAGEMENT = {
   GET_LIST_BRAND: "get_list_brand",
+  SEARCH_BRAND: "search_brand",
 };
 
 export {

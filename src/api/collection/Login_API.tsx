@@ -1,5 +1,5 @@
 import { fetcher } from "../Fetcher";
-import { IAdminAccount } from "../../interface/user-management/IUser";
+import IUser, { IAdminAccount } from "../../interface/user-management/IUser";
 
 const url = {
   login: "/user-auth/authenticate",
@@ -16,11 +16,11 @@ export function login(body: { username: string; password: string }) {
     "login"
   );
 }
-export function registerAdminAccount(body: IAdminAccount) {
+export function registerAdminAccount(body: IAdminAccount | IUser) {
   return fetcher(
     {
       url: url.register,
-      data: body,
+      data: { ...body, role_id: 1 },
       method: "POST",
     },
     "register"

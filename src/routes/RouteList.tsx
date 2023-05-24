@@ -48,7 +48,7 @@ const routes: IRoute[] = [
         name: "Tài khoản QTV",
         path: "admin-account",
         isSideBar: true,
-        element: <Route404 />,
+        element: <UserManagement typeOfScreen={"admin"} />,
       },
     ],
   },

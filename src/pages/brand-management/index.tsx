@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Tooltip } from "antd";
 import { useMutation, useQuery } from "react-query";
 import { EditActionBtn } from "../../module/component/Button/ActionBtn/ActionButton";
@@ -12,6 +12,7 @@ import { IBrand } from "../../interface/brand-management/IBrand";
 import {
   deleteBrand,
   getAllBrand,
+  getBrandById,
 } from "../../api/collection/BrandManagement_API";
 import BrandManipulationModal from "./modal/BrandManipulationModal";
 
@@ -33,11 +34,31 @@ const CategoryManagement = () => {
   };
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [selectedRecord, setSelectedRecord] = useState<IBrand>();
+  const [searchPayload, setSearchPayload] = useState("");
   const {
-    data: listOfCategory,
+    data: listOfBrand,
     isLoading,
     refetch,
   } = useQuery(BRAND_MANAGEMENT.GET_LIST_BRAND, getAllBrand);
+  const [dataSources, setDataSources] = useState(listOfBrand);
+  useEffect(() => {
+    setDataSources(listOfBrand);
+  }, [listOfBrand]);
+
+  useEffect(() => {
+    if (searchPayload !== "") {
+      searchQuery.refetch();
+    }
+  }, [searchPayload]);
+
+  const getBrandByIdAttachedParams = () => {
+    return getBrandById(searchPayload);
+  };
+
+  const searchQuery = useQuery(
+    BRAND_MANAGEMENT.SEARCH_BRAND + searchPayload,
+    getBrandByIdAttachedParams
+  );
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
@@ -94,12 +115,16 @@ const CategoryManagement = () => {
       width: 100,
     },
   ];
-
+  console.log("Seatch", searchPayload);
   return (
     <div className="management-antd-table-container">
       <div className="utils-bar">
-        <Tooltip title={"Từ khoá: Tên danh mục"} placement={"topLeft"}>
-          <GlobalInputSearch />
+        <Tooltip title={"Từ khoá: ID thương hiệu"} placement={"topLeft"}>
+          <GlobalInputSearch
+            onSearch={(value) => {
+              setSearchPayload(value);
+            }}
+          />
         </Tooltip>
         <div className={"action-btn"}>
           <GlobalBtn
@@ -124,7 +149,7 @@ const CategoryManagement = () => {
         className="management-table mt-12"
         columns={categoryTableColumns}
         //@ts-ignore
-        dataSource={listOfCategory?.data?.data.map((item) => {
+        dataSource={dataSources?.data?.data.map((item) => {
           return { ...item, key: item.id };
         })}
         rowSelection={rowSelection}
@@ -140,7 +165,7 @@ const CategoryManagement = () => {
       <DeleteModal
         isOpen={isOpenDeleteModal}
         onOk={() => {
-          setIsOpenDeleteModal(false)
+          setIsOpenDeleteModal(false);
           deleteMutation.mutate(selectedRowKeys, {
             onSuccess: () => refetch(),
           });

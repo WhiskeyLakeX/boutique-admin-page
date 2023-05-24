@@ -6,6 +6,7 @@ const endpoint = {
   updateBrand: "/brands/update",
   deleteBrand: "/brands/delete",
   createBrand: "/brands/add",
+  searchBrand: "brands/",
 };
 export function getAllBrand() {
   return fetcher({
@@ -15,12 +16,12 @@ export function getAllBrand() {
 }
 
 export function createBrand(body: IBrand) {
-  console.log(body)
+  console.log(body);
   return fetcher(
     {
       method: "POST",
       url: endpoint.createBrand,
-      data: body
+      data: body,
     },
     "create"
   );
@@ -34,6 +35,15 @@ export function updateBrand(data: IBrand) {
       data: data,
     },
     "edit"
+  );
+}
+export function getBrandById(data: string) {
+  return fetcher(
+    {
+      method: "GET",
+      url: `${endpoint.searchBrand}${data}`,
+    },
+    "get"
   );
 }
 

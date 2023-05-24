@@ -12,7 +12,11 @@ import { useQuery } from "react-query";
 import { USER_MANAGEMENT } from "../../api/KeyQuery";
 import { getAllUser } from "../../api/collection/UserManagement";
 
-const UserManagement = () => {
+interface IUserManagement {
+  typeOfScreen?: string;
+}
+
+const UserManagement = ({ typeOfScreen }: IUserManagement) => {
   const {
     data: listOfUser,
     isLoading,
@@ -74,6 +78,14 @@ const UserManagement = () => {
       key: "username",
     },
     {
+      title: "Giới tính",
+      dataIndex: "gender",
+      key: "gender",
+      render: (text: number) => {
+        return text === 1 || typeof text === "string" ? "Nam" : "Nữ";
+      },
+    },
+    {
       title: "Ngày sinh",
       dataIndex: "dob",
       key: "dob",
@@ -114,17 +126,20 @@ const UserManagement = () => {
       },
     },
     {
-      title: "Số đơn",
-      dataIndex: "numOrder",
-      key: "numOrder",
-      sorter: true,
+      title: typeOfScreen === "admin" ? "Quyền hạn" : "Số đơn",
+      dataIndex: typeOfScreen === "admin" ? "role_id" : "numOrder",
+      key: typeOfScreen === "admin" ? "role_id" : "numOrder",
+      sorter: typeOfScreen !== "admin",
+      render: (text: number, record: any, index: any) => {
+        return text === 1 || !!text ? "Admin" : "Người dùng";
+      },
     },
     {
       title: "Thao tác",
       dataIndex: "action",
       key: "action",
       fixed: true,
-      render: (record: React.SetStateAction<undefined>) => {
+      render: (text: any, record: any) => {
         return (
           <div className={"list-btn"}>
             <div
@@ -136,13 +151,6 @@ const UserManagement = () => {
               }}
             >
               <FontAwesomeIcon icon={solid("pen-to-square")} />
-            </div>
-            <div
-              className={"delete btn"}
-              role={"button"}
-              onClick={handleOpenDeleteModal}
-            >
-              <FontAwesomeIcon icon={solid("trash")} />
             </div>
           </div>
         );
@@ -161,7 +169,8 @@ const UserManagement = () => {
             icon={<FontAwesomeIcon className="icon" icon={solid("plus")} />}
             onClick={() => handleOpenUserManipulationModal("create")}
           >
-            Đăng ký người dùng
+            Đăng ký tài khoản{" "}
+            {typeOfScreen === "admin" ? "Admin" : "người dùng"}
           </GlobalBtn>
           <GlobalBtn
             icon={
@@ -178,10 +187,19 @@ const UserManagement = () => {
       <Table
         className="management-table mt-12"
         columns={UserTableColumn}
-        //@ts-ignore
-        dataSource={listOfUser?.data?.data.map((item) => {
-          return { ...item, key: item.user_id };
-        })}
+        dataSource={
+          typeOfScreen === "admin"
+            ? //@ts-ignore
+              listOfUser?.data?.data.map((item: { user_id: any }) => {
+                return { ...item, key: item.user_id };
+              })
+            : //@ts-ignore
+              listOfUser?.data?.data
+                ?.filter((obj: { role: number }) => obj.role === 1)
+                .map((item: { user_id: any }) => {
+                  return { ...item, key: item.user_id };
+                })
+        }
         rowSelection={rowSelection}
         loading={isLoading}
       />
@@ -190,7 +208,9 @@ const UserManagement = () => {
         type={userManipulationModalProps.type}
         cancel={handleCancel}
         selectedRecord={selectedRecord}
-      ></UserManipulationModal>
+        refetch={refetch}
+        typeOfScreen={typeOfScreen}
+      />
       <DeleteModal
         isOpen={isOpenDeleteModal}
         onCancel={handleOpenDeleteModal}

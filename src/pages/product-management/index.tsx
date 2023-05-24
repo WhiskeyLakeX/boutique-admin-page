@@ -76,7 +76,6 @@ const ProductManagement = () => {
       onSuccess: () => {
         refetchProduct();
       },
-
     });
   };
 

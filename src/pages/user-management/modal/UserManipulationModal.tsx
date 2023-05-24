@@ -7,6 +7,10 @@ import { requiredMessage } from "../../../module/utils/ValidationMesssage";
 import IUser, { IAdminAccount } from "../../../interface/user-management/IUser";
 import GlobalDatepicker from "../../../module/component/Datepicker/GlobalDatepicker";
 import GlobalSelect from "../../../module/component/Select/GlobalSelect";
+import { createUser, editUser } from "../../../api/collection/UserManagement";
+import { useMutation } from "react-query";
+import dayjs from "dayjs";
+import { registerAdminAccount } from "../../../api/collection/Login_API";
 
 interface IUserManipulation {
   type: string;
@@ -15,6 +19,8 @@ interface IUserManipulation {
   cancel: () => void;
   userType?: string;
   selectedRecord?: IUser | IAdminAccount;
+  refetch: () => void;
+  typeOfScreen?: string;
 }
 
 const UserManipulationModal = ({
@@ -24,18 +30,49 @@ const UserManipulationModal = ({
   isOpen,
   cancel,
   selectedRecord,
+  refetch,
+  typeOfScreen,
 }: IUserManipulation) => {
   const [form] = Form.useForm();
   const formRef = React.useRef<FormInstance>(null);
-  const [selectedRecordReceive, setSelectedRecordReceive] =
-    useState(selectedRecord);
-  const handleSubmit = (values: IAdminAccount | IUser) => {
-    console.log(values);
-  };
+  const [initialValue, setInitialValue] = useState(
+    type === "edit" ? selectedRecord : undefined
+  );
 
+  const userCreateMutation = useMutation(
+    typeOfScreen === "admin" ? registerAdminAccount : createUser
+  );
+  const userUpdateMutation = useMutation(editUser);
+  console.log("Type of user", typeOfScreen);
+  const handleSubmit = (values: IAdminAccount | IUser) => {
+    if (type !== "edit") {
+      userCreateMutation.mutate(values, {
+        onSuccess: () => {
+          refetch();
+          cancel();
+          form.resetFields();
+        },
+      });
+    } else {
+      userUpdateMutation.mutate(values, {
+        onSuccess: () => {
+          refetch();
+          cancel();
+          form.resetFields();
+        },
+      });
+    }
+  };
   useEffect(() => {
-    setSelectedRecordReceive(selectedRecord);
-    console.log(selectedRecord);
+    form.resetFields();
+    if (type === "edit") {
+      setInitialValue({
+        ...selectedRecord,
+        password: "",
+        // @ts-ignore
+        dob: dayjs(selectedRecord?.dob),
+      });
+    }
   }, [selectedRecord]);
 
   return (
@@ -49,6 +86,7 @@ const UserManipulationModal = ({
       onCancel={cancel}
       footer={null}
       className={"modal-wrapper"}
+      destroyOnClose={true}
     >
       <Form
         form={form}
@@ -56,27 +94,31 @@ const UserManipulationModal = ({
         layout={"vertical"}
         onFinish={handleSubmit}
         ref={formRef}
+        initialValues={type === "edit" ? initialValue : undefined}
       >
         <Form.Item
           name={"username"}
           label="Tên đăng nhập"
           rules={[
-            { required: true, message: requiredMessage("tên đăng nhập") },
+            {
+              required: type !== "edit",
+              message: requiredMessage("tên đăng nhập"),
+            },
           ]}
         >
           <GlobalInput
             className={"required"}
             placeholder="Tên đăng nhập"
             allowClear
-            defaultValue={
-              type === "edit" ? selectedRecordReceive?.username : undefined
-            }
+            disabled={type === "edit" ? true : false}
           />
         </Form.Item>
         <Form.Item
           name={"password"}
           label="Mật khẩu"
-          rules={[{ required: true, message: requiredMessage("mật khẩu") }]}
+          rules={[
+            { required: type !== "edit", message: requiredMessage("mật khẩu") },
+          ]}
         >
           <GlobalInput
             className={type === "edit" ? "" : "required"}
@@ -89,36 +131,46 @@ const UserManipulationModal = ({
           name={"fullname"}
           label="Tên người dùng"
           rules={[
-            { required: true, message: requiredMessage("tên người dùng") },
+            {
+              required: type !== "edit",
+              message: requiredMessage("tên người dùng"),
+            },
           ]}
         >
           <GlobalInput
             className={"required"}
             placeholder={"Tên người dùng"}
             allowClear
-            defaultValue={
-              type === "edit" ? selectedRecordReceive?.fullname : undefined
-            }
           />
         </Form.Item>
         <Form.Item
           name={"dob"}
           label="Ngày sinh"
-          rules={[{ required: true, message: requiredMessage("ngày sinh") }]}
+          rules={[
+            {
+              required: type !== "edit",
+              message: requiredMessage("ngày sinh"),
+            },
+          ]}
         >
           <GlobalDatepicker
             placeholder={"Ngày sinh"}
             allowClear
             defaultValue={
-              type === "edit" ? selectedRecordReceive?.dob : undefined
+              type === "edit" && initialValue?.dob
+                ? dayjs(initialValue?.dob, "YYYY/MM/DD")
+                : undefined
             }
           />
         </Form.Item>
         <Form.Item
-          name={"Số điện thoại"}
+          name={"phone_number"}
           label="Số điện thoại"
           rules={[
-            { required: true, message: requiredMessage("số điện thoại") },
+            {
+              required: type !== "edit",
+              message: requiredMessage("số điện thoại"),
+            },
           ]}
         >
           <GlobalInput
@@ -126,46 +178,48 @@ const UserManipulationModal = ({
             placeholder={"Số điện thoại"}
             allowClear
             type={"number"}
-            defaultValue={
-              type === "edit" ? selectedRecordReceive?.phone_number : undefined
-            }
           />
         </Form.Item>
         <Form.Item
-          name={"Địa chỉ"}
+          name={"address"}
           label="Địa chỉ"
-          rules={[{ required: true, message: requiredMessage("địa chỉ") }]}
+          rules={[
+            { required: type !== "edit", message: requiredMessage("địa chỉ") },
+          ]}
         >
           <GlobalInput
             className={"required"}
             placeholder={"Địa chỉ"}
             allowClear
-            defaultValue={
-              type === "edit" ? selectedRecordReceive?.address : undefined
-            }
+            defaultValue={type === "edit" ? initialValue?.address : undefined}
           />
         </Form.Item>
         <Form.Item
-          name={"Email"}
+          name={"email"}
           label="Email"
-          rules={[{ required: true, message: requiredMessage("email") }]}
+          rules={[
+            { required: type !== "edit", message: requiredMessage("email") },
+          ]}
         >
           <GlobalInput
             className={"required"}
             placeholder={"Email"}
             allowClear
-            defaultValue={
-              type === "edit" ? selectedRecordReceive?.email : undefined
-            }
+            defaultValue={type === "edit" ? initialValue?.email : undefined}
           />
         </Form.Item>
         <Form.Item
           name={"gender"}
           label="Giới tính"
-          rules={[{ required: true, message: requiredMessage("giới tính") }]}
+          rules={[
+            {
+              required: type !== "edit",
+              message: requiredMessage("giới tính"),
+            },
+          ]}
         >
           <GlobalSelect
-            defaultValue={selectedRecordReceive?.gender ?? 0}
+            defaultValue={initialValue?.gender || { value: 0, label: "Nam" }}
             id="gender"
             size={"large"}
             options={[

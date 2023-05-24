@@ -1,7 +1,8 @@
 import { fetcher } from "../Fetcher";
 
 const endpoint = {
-  getAllOrder: "/cart_lines",
+  getAllOrder: "/cart/all",
+  changeOrderStatus: "/cart/set_status",
 };
 export function getAllOrder() {
   return fetcher({
@@ -10,15 +11,19 @@ export function getAllOrder() {
   });
 }
 
-// export function createBrand(body: IBrand) {
-//   return fetcher(
-//     {
-//       method: "POST",
-//       url: endpoint.createBrand,
-//     },
-//     "create"
-//   );
-// }
+export function changeOrderStatus(body: {
+  cart_id: number | null;
+  cart_status: number;
+}) {
+  return fetcher(
+    {
+      method: "POST",
+      url: endpoint.changeOrderStatus,
+      params: body,
+    },
+    "edit"
+  );
+}
 //
 // export function updateBrand(data: IBrand) {
 //   return fetcher(

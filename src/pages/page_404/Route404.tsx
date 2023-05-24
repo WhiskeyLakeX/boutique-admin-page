@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import img_404 from "../../assets/404_page.png";
 import "./styles.scss";
 import { useNavigate } from "react-router-dom";
+import { PATHNAME } from "../../config";
 
 export default function Route404(): JSX.Element {
   const [count, setCount] = useState(50);
@@ -9,7 +10,7 @@ export default function Route404(): JSX.Element {
 
   useEffect(() => {
     if (count === 0) {
-      navigate("/dashboard", { replace: true });
+      navigate(PATHNAME.HOME, { replace: true });
     }
 
     setTimeout(() => {

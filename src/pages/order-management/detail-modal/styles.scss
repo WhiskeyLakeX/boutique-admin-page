@@ -1,0 +1,12 @@
+.detail-information-wrapper {
+  .detail-information-title {
+    margin-bottom: 15px;
+  }
+  .detail-information-body {
+    display: flex;
+    flex-direction: row;
+    .detail-information-txt {
+      padding: 0px 15px;
+    }
+  }
+}

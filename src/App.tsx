@@ -6,10 +6,11 @@ import { persistor, store } from "../src/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { handleNoValidAccessToken } from "./module/utils/Notification";
+import { PATHNAME } from "./config";
 
 function App() {
   if (window.location.pathname === "/") {
-    window.location.href = "/dashboard";
+    window.location.href = PATHNAME.HOME;
   }
   useEffect(() => {
     return () => {

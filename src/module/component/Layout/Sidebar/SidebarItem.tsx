@@ -50,13 +50,13 @@ const SidebarItem = (): MenuItem[] => {
                   undefined,
                   undefined
                 ),
-                getItem(
-                  "Khách hàng thân thiết",
-                  "customer-familiar",
-                  <FontAwesomeIcon icon={solid("heart")} />,
-                  undefined,
-                  undefined
-                ),
+                // getItem(
+                //   "Khách hàng thân thiết",
+                //   "customer-familiar",
+                //   <FontAwesomeIcon icon={solid("heart")} />,
+                //   undefined,
+                //   undefined
+                // ),
               ],
               "group"
             ),
@@ -95,11 +95,11 @@ const SidebarItem = (): MenuItem[] => {
           "brand-management",
           <FontAwesomeIcon icon={solid("copyright")} />
         ),
-        getItem(
-          "Quản lý kho",
-          "warehouse-management",
-          <FontAwesomeIcon icon={solid("boxes-packing")} />
-        ),
+        // getItem(
+        //   "Quản lý kho",
+        //   "warehouse-management",
+        //   <FontAwesomeIcon icon={solid("boxes-packing")} />
+        // ),
       ],
       "group"
     ),

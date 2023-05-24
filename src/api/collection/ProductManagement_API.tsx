@@ -14,7 +14,6 @@ export function getAllProduct() {
 }
 
 export function createProduct(body: IProduct) {
-  
   return fetcher(
     {
       url: url.createProduct,
@@ -26,7 +25,6 @@ export function createProduct(body: IProduct) {
 }
 
 export function updateProduct(body: IProduct) {
-  console.log(body);
   return fetcher(
     {
       url: url.updateProduct,
@@ -38,7 +36,6 @@ export function updateProduct(body: IProduct) {
 }
 
 export function deleteProduct(body: React.Key[]) {
-  console.log(body);
   return fetcher(
     {
       url: url.deleteProduct,

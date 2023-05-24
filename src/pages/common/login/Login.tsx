@@ -14,6 +14,7 @@ import { store } from "../../../redux/store";
 import { Button, Form, Input } from "antd";
 
 import { requiredMessage } from "../../../module/utils/ValidationMesssage";
+import { PATHNAME } from "../../../config";
 
 interface ILoginForm {
   username: string;
@@ -75,7 +76,7 @@ function Login() {
             username: loginFormData.username,
           })
         );
-        navigator("/dashboard");
+        navigator(PATHNAME.HOME);
       },
     });
   };
@@ -83,7 +84,7 @@ function Login() {
     // @ts-ignore
     const accessToken = store.getState().userReducer.accessToken;
     if (accessToken) {
-      navigator("/dashboard");
+      navigator(PATHNAME.HOME);
     }
   }, [navigator]);
   const handleRegister = () => {
